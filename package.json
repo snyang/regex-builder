@@ -1,0 +1,46 @@
+{
+  "name": "regex-builder",
+  "version": "1.0.0",
+  "description": "A JS/Ts\u001b[D\u001b[D\u001b[s\u001b[C\u001b[C\u001b[S\u001b[D\u001b[D\u001b[S\u001b[C\u001b[C\u001b[C RegEx Builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "check-types": "tsc",
+    "lint:ts": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:ts:fix": "eslint --fix \"src/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint": "npm run lint:ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snyang/regex-builder.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "TypeScript",
+    "RegEx"
+  ],
+  "author": "stevenn_nyang@outlook.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/snyang/regex-builder/issues"
+  },
+  "homepage": "https://github.com/snyang/regex-builder#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@typescript-eslint/eslint-plugin": "^2.9.0",
+    "@typescript-eslint/parser": "^2.9.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-airbnb-typescript": "^6.3.1",
+    "eslint-config-tslint": "^0.2.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "eslint-plugin-simple-import-sort": "^5.0.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.2"
+  }
+}

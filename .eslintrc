@@ -1,0 +1,29 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint"
+	],
+	"env": {
+		"browser": false,
+		"es6": true,
+		"node": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2016,
+		"sourceType": "module"
+	},
+	"extends": ["airbnb-base", "eslint-config-airbnb-typescript"],
+	"rules": {
+		"no-tabs": "off",
+		"indent": ["error", "tab"],
+		"no-trailing-spaces": ["error", {
+			"ignoreComments": true
+		}],
+		"linebreak-style": "off",
+		"@typescript-eslint/indent": ["error", "tab", {
+			"SwitchCase": 1
+		}],
+		"@typescript-eslint/no-use-before-define": "off"
+	}
+}
