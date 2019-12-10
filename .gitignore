@@ -1,4 +1,8 @@
+# node
 node_modules
 
 # Jest coverage files
 coverage
+
+# temporary files
+tmp

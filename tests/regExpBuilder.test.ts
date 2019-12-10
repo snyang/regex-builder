@@ -1,8 +1,26 @@
+import RegExpToken from '../src/regExpToken';
 import RegExpBuilder from '../src/regExpBuilder';
+
+// const prefix = 'test.regexp';
+// test(`${prefix}.internalIsGrouped`, () => {
+// 	expect(RegExpBuilder.internalIsGrouped('(abc)')).toBe(true);
+// 	expect(RegExpBuilder.internalIsGrouped('(abc)(def)')).toBe(false);
+// 	expect(RegExpBuilder.internalIsGrouped('(abc\\)')).toBe(false);
+// 	expect(RegExpBuilder.internalIsGrouped('(abc\\\\)')).toBe(true);
+// 	expect(RegExpBuilder.internalIsGrouped('(abc\\\\\\)')).toBe(false);
+// 	expect(RegExpBuilder.internalIsGrouped('(abc\\\\\\\\)')).toBe(true);
+// 	expect(RegExpBuilder.internalIsGrouped('(())')).toBe(true);
+// 	expect(RegExpBuilder.internalIsGrouped('((\\)))')).toBe(true);
+// 	expect(RegExpBuilder.internalIsGrouped('(a(b)c)')).toBe(true);
+// 	expect(RegExpBuilder.internalIsGrouped('(a\\(b)c)')).toBe(false);
+// 	expect(RegExpBuilder.internalIsGrouped('(a\\\\(b)c)')).toBe(true);
+// 	expect(RegExpBuilder.internalIsGrouped('(a\\\\(b\\)c)')).toBe(false);
+// 	expect(RegExpBuilder.internalIsGrouped('(a\\\\(b\\\\)c)')).toBe(true);
+// });
 
 const prefix = 'test.regexp';
 test(`${prefix}.sql.literal`, () => {
-	expect(testMatchSqlLiteral("Name = 'ab\\'c' And ")).toBe("'ab\\'c'");
+	expect(testMatchSqlLiteral("Name = 'ab\\'(c' And ")).toBe("'ab\\'(c'");
 	expect(testMatchSqlLiteral("Name = '' And ")).toBe("''");
 	expect(testMatchSqlLiteral("Name = 'abc' And ")).toBe("'abc'");
 	expect(testMatchSqlLiteral("Name = 'ab\\\t\\\\\\'c' And ")).toBe("'ab\\\t\\\\\\'c'");
@@ -10,7 +28,7 @@ test(`${prefix}.sql.literal`, () => {
 });
 
 test(`${prefix}.markdown.table`, () => {
-	expect(testMarkdownTableLine(' | ---- | ----- |')).toBe(true);
+	expect(testMarkdownTableLine('  | ---- | ----- |')).toBe(true);
 	expect(testMarkdownTableLine('| :---- | -----:')).toBe(true);
 	expect(testMarkdownTableLine(' ---- | ----- | ')).toBe(true);
 	expect(testMarkdownTableLine(' ---- | ----- ')).toBe(true);
@@ -24,14 +42,15 @@ function testMatchSqlLiteral(str: string): string {
 
 	// case: escape for specific characters, e.g. ['\\', '\t', '\'']
 	const withEscapeEx = /(\\\\)|(\\\t)|(\\')/;
-	const withoutEscapeEx = /[^(\\\\)(\\\t)(\\')]/;
+	const withoutEscapeEx = /[^\\\t']/;
 
 	const qualifierEx = /'/;
 	const re = new RegExpBuilder()
 		.concat(qualifierEx)
-		.groupOr([withoutEscapeEx, withEscapeEx], '*')
+		.concatOr([withoutEscapeEx, withEscapeEx], { qualifier: '*' })
 		.concat(qualifierEx)
 		.toRegExp();
+	console.log(re.source)
 	const result = str.match(re);
 	if (result) {
 		return result[0];
@@ -43,13 +62,13 @@ function testMarkdownTableLine(str: string): boolean {
 	const headerLineEx = /(\s*)(:?)(-*)(:?)(\s*)/;
 	const splitterEx = /\|/;
 	const re = new RegExpBuilder()
-		.concat(RegExpBuilder.begin)
-		.concat(RegExpBuilder.whitespace, '*')
-		.concat(splitterEx, '?', true)
-		.concat([headerLineEx, splitterEx], '+', true)
-		.concat(headerLineEx, '?', true)
-		.concat(RegExpBuilder.whitespace, '*')
-		.concat(RegExpBuilder.end)
+		.concat(RegExpToken.begin)
+		.concat(RegExpToken.whitespace, { qualifier: '*' })
+		.concat(splitterEx, { qualifier: '?', group: true })
+		.concat([headerLineEx, splitterEx], { qualifier: '+', group: true })
+		.concat(headerLineEx, { qualifier: '?', group: true })
+		.concat(RegExpToken.whitespace, { qualifier: '*' })
+		.concat(RegExpToken.end)
 		.toRegExp();
 	return re.test(str);
 }
