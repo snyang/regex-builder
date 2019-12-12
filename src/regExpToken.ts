@@ -19,8 +19,8 @@ export default class RegExpToken {
 	 * 
 	 * @see: [Caret](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-caret)
 	 */
-	static get begin(): RegExp {
-		return /^/;
+	static get begin(): string {
+		return '^';
 	}
 
 	/**
@@ -30,8 +30,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [dollar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-dollar)
 	 */
-	static get end(): RegExp {
-		return /$/;
+	static get end(): string {
+		return '$';
 	}
 
 	/**
@@ -100,7 +100,7 @@ export default class RegExpToken {
 	 * 
 	 * @see [dot](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-dot)
 	 */
-	static get any(): RegExp {
+	static get any(): string {
 		return this.dot;
 	}
 
@@ -110,76 +110,67 @@ export default class RegExpToken {
 	 * 
 	 * @see [dot](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-dot)
 	 */
-	static get dot(): RegExp {
-		return /./;
+	static get dot(): string {
+		return '.';
 	}
 
 	/**
 	 * `(x)`, Matches `x` and remembers the match. 
-	 * The parentheses are called capturing parentheses
+	 * The parentheses are called capturing parentheses.  
+	 * `(?<name>:x)`, Named capturing group: Matches x and stores it 
+	 * on the groups property of the returned matches under the name specified by <Name>. 
 	 * 
-	 * @param x pattern
+	 * @param x expression
+	 * @param name name
 	 * 
 	 * @see [capturing parentheses](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-capturing-parentheses)
+	 * @see [Groups and Ranges](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges)
 	 */
-	static capturingParentheses(x: string | RegExp): RegExp {
-		const source = typeof (x) === 'string' ? x : x.source;
-		return new RegExp(`(${source})`);
+	static capturingParentheses(x: string | RegExp, name?: string): string {
+		const source = typeof x === 'string' ? x : x.source;
+		return `(${name ? `?<${name}>:` : ''}${source})`;
 	}
 
 	/**
 	 * `(?:x)`, Matches `x` but does not remember the match.
 	 * The parentheses are called non-capturing parentheses.
-	 * @param x pattern
+	 * @param x expression
 	 * 
 	 * @see [non capturing parentheses](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-non-capturing-parentheses)
 	 */
-	static nonCapturingParentheses(x: string | RegExp): RegExp {
-		const source = typeof (x) === 'string' ? x : x.source;
-		return new RegExp(`(?:${source})`);
-	}
-
-	/**
-	 * `(?<name>:x)`, Named capturing group: Matches x and stores it 
-	 * on the groups property of the returned matches under the name specified by <Name>. 
-	 * @param name name
-	 * @param x pattern
-	 * 
-	 * @see [Groups and Ranges](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges)
-	 */
-	static nameCapturingParentheses(name: string, x: string | RegExp): RegExp {
-		const source = typeof (x) === 'string' ? x : x.source;
-		return new RegExp(`(?<${name}>:${source})`);
+	static nonCapturingParentheses(x: string | RegExp): string {
+		const source = typeof x === 'string' ? x : x.source;
+		return `(?:${source})`;
 	}
 
 	/**
 	 * `x(?=y)`,
 	 * Matches `x` only if `x` is followed by `y`. This is called a lookahead.
 	 * 
-	 * @param x pattern
-	 * @param followedBy pattern
+	 * @param x expression
+	 * @param followedBy the followed by expression
 	 * 
 	 * @see [lookahead](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-lookahead)
 	 */
-	static lookahead(x: string | RegExp, followedBy: string | RegExp): RegExp {
-		const source = typeof (x) === 'string' ? x : x.source;
+	static lookahead(x: string | RegExp, followedBy: string | RegExp): string {
+		const source = typeof x === 'string' ? x : x.source;
 		const ySource = typeof (followedBy) === 'string' ? followedBy : followedBy.source;
-		return new RegExp(`${source}(?=${ySource})`);
+		return `${source}(?=${ySource})`;
 	}
 
 	/**
 	 * `x(?!y)`
 	 * Matches `x` only if `x` is not followed by `y`. 
 	 * This is called a negated lookahead.
-	 * @param x pattern
-	 * @param notFollowedBy pattern
+	 * @param x expression
+	 * @param notFollowedBy the not followed by expression
 	 * 
 	 * @see [negated look ahead](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-negated-look-ahead)
 	 */
-	static negatedLookahead(x: string | RegExp, notFollowedBy: string | RegExp): RegExp {
-		const source = typeof (x) === 'string' ? x : x.source;
+	static negatedLookahead(x: string | RegExp, notFollowedBy: string | RegExp): string {
+		const source = typeof x === 'string' ? x : x.source;
 		const ySource = typeof (notFollowedBy) === 'string' ? notFollowedBy : notFollowedBy.source;
-		return new RegExp(`${source}(?!${ySource})`);
+		return `${source}(?!${ySource})`;
 	}
 
 	/**
@@ -187,15 +178,15 @@ export default class RegExpToken {
 	 * Matches `x` only if `x` is preceded by `y`.
 	 * This is called a lookbehind.
 	 * 
-	 * @param x pattern
-	 * @param precededBy pattern
+	 * @param x expression
+	 * @param precededBy the preceded by expression
 	 * 
 	 * @see [lookbehind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-lookbehind) 
 	 */
-	static lookbehind(x: string | RegExp, precededBy: string | RegExp): RegExp {
-		const source = typeof (x) === 'string' ? x : x.source;
+	static lookbehind(x: string | RegExp, precededBy: string | RegExp): string {
+		const source = typeof x === 'string' ? x : x.source;
 		const ySource = typeof (precededBy) === 'string' ? precededBy : precededBy.source;
-		return new RegExp(`(?<=${ySource})${source}`);
+		return `(?<=${ySource})${source}`;
 	}
 
 	/**
@@ -203,31 +194,31 @@ export default class RegExpToken {
 	 * Matches `x` only if `x` is not preceded by `y`.
 	 * This is called a negated lookbehind.
 	 * 
-	 * @param x pattern
-	 * @param notPrecededBy pattern
+	 * @param x expression
+	 * @param notPrecededBy the not preceded by expression
 	 * 
 	 * @see [negative lookbehind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-negative-lookbehind)
 	 */
-	static negatedLookbehind(x: string | RegExp, notPrecededBy: string | RegExp): RegExp {
-		const source = typeof (x) === 'string' ? x : x.source;
+	static negatedLookbehind(x: string | RegExp, notPrecededBy: string | RegExp): string {
+		const source = typeof x === 'string' ? x : x.source;
 		const ySource = typeof (notPrecededBy) === 'string' ? notPrecededBy : notPrecededBy.source;
-		return new RegExp(`(?<!${ySource})${source}`);
+		return `(?<!${ySource})${source}`;
 	}
 
 	/**
 	 * `x|y`,
 	 * Matches 'x', or 'y' (if there is no match for 'x').
 	 * 
-	 * @param items pattern
+	 * @param items expression
 	 * 
 	 * @see [or](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-or)
 	 */
-	static or(...items: string[] | RegExp[]): RegExp {
+	static or(...items: string[] | RegExp[]): string {
 		let source = '';
 		items.forEach((value: string | RegExp, index: number) => {
 			source += (index === 0 ? '' : '|') + (typeof (value) === 'string' ? value : value.source);
 		});
-		return new RegExp(source);
+		return source;
 	}
 
 	/**
@@ -265,9 +256,9 @@ export default class RegExpToken {
 	 * 
 	 * @see [character set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-character-set)
 	 */
-	static characterSet(...chars: string[]): RegExp {
+	static characterSet(...chars: string[]): string {
 		const source = chars.join('');
-		return new RegExp(`[${source}]`);
+		return `[${source}]`;
 	}
 
 	/**
@@ -276,9 +267,9 @@ export default class RegExpToken {
 	 * 
 	 * @see [negated character set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-negated-character-set)
 	 */
-	static negatedCharacterSet(...chars: string[]): RegExp {
+	static negatedCharacterSet(...chars: string[]): string {
 		const source = chars.join('');
-		return new RegExp(`[^${source}]`);
+		return `[^${source}]`;
 	}
 
 	/**
@@ -287,8 +278,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [backspace](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-backspace)
 	 */
-	static get backspace(): RegExp {
-		return /[\b]/;
+	static get backspace(): string {
+		return '[\\b]';
 	}
 
 	/**
@@ -297,8 +288,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [word boundary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-word-boundary)
 	 */
-	static get wordBoundary(): RegExp {
-		return /\b/;
+	static get wordBoundary(): string {
+		return '\\b';
 	}
 
 	/**
@@ -306,8 +297,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [non word boundary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-non-word-boundary)
 	 */
-	static get nonWordBoundary(): RegExp {
-		return /\B/;
+	static get nonWordBoundary(): string {
+		return '\\B';
 	}
 
 	/**
@@ -318,8 +309,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [control](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-control)
 	 */
-	static controlCharacter(X: string): RegExp {
-		return new RegExp(`\\c${X}`);
+	static controlCharacter(X: string): string {
+		return `\\c${X}`;
 	}
 
 	/**
@@ -327,8 +318,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [digit](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-digit)
 	 */
-	static get digit(): RegExp {
-		return /\d/;
+	static get digit(): string {
+		return '\\d';
 	}
 
 	/**
@@ -336,8 +327,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [non digit](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-non-digit)
 	 */
-	static get nonDigit(): RegExp {
-		return /\D/;
+	static get nonDigit(): string {
+		return '\\D';
 	}
 
 	/**
@@ -346,8 +337,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [form-feed](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-form-feed)
 	 */
-	static get formfeed(): RegExp {
-		return /\f/;
+	static get formfeed(): string {
+		return '\\f';
 	}
 
 	/**
@@ -356,8 +347,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-line-feed)
 	 */
-	static get linefeed(): RegExp {
-		return /\n/;
+	static get linefeed(): string {
+		return '\\n';
 	}
 
 	/**
@@ -366,8 +357,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-carriage-return)
 	 */
-	static get carriageReturn(): RegExp {
-		return /\r/;
+	static get carriageReturn(): string {
+		return '\\r';
 	}
 
 	/**
@@ -376,8 +367,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [white space](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-white-space)
 	 */
-	static get whitespace(): RegExp {
-		return /\s/;
+	static get whitespace(): string {
+		return '\\s';
 	}
 
 	/**
@@ -386,8 +377,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [non white space](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-non-white-space)
 	 */
-	static get nonWhitespace(): RegExp {
-		return /\S/;
+	static get nonWhitespace(): string {
+		return '\\S';
 	}
 
 	/**
@@ -396,8 +387,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [tab](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-tab)
 	 */
-	static get tab(): RegExp {
-		return /\t/;
+	static get tab(): string {
+		return '\\t';
 	}
 
 	/**
@@ -406,8 +397,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [vertical tab](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-vertical-tab)
 	 */
-	static get verticalTab(): RegExp {
-		return /\v/;
+	static get verticalTab(): string {
+		return '\\v';
 	}
 
 	/**
@@ -416,8 +407,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [word](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-word)
 	 */
-	static get alphanumeric(): RegExp {
-		return /\w/;
+	static get alphanumeric(): string {
+		return '\\w';
 	}
 
 	/**
@@ -426,8 +417,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [non word](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-non-word)
 	 */
-	static get nonWord(): RegExp {
-		return /\W/;
+	static get nonWord(): string {
+		return '\\W';
 	}
 
 	/**
@@ -438,8 +429,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [backreference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-backreference)
 	 */
-	static backreference(n: number): RegExp {
-		return new RegExp(`\\${n}`);
+	static backreference(n: number): string {
+		return `\\${n}`;
 	}
 
 	/**
@@ -447,8 +438,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [null](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-null)
 	 */
-	static get null(): RegExp {
-		return /\0/;
+	static get null(): string {
+		return '\\0';
 	}
 
 	/**
@@ -458,8 +449,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [hex escape](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-hex-escape)
 	 */
-	static hex(hh: string): RegExp {
-		return new RegExp(`\\x${hh.padStart(2, '0')}`);
+	static hex(hh: string): string {
+		return `\\x${hh.padStart(2, '0')}`;
 	}
 
 	/**
@@ -469,8 +460,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [unicode-escape](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-unicode-escape)
 	 */
-	static unicode(hhhh: string): RegExp {
-		return new RegExp(`\\u${hhhh.padStart(4, '0')}`);
+	static unicode(hhhh: string): string {
+		return `\\u${hhhh.padStart(4, '0')}`;
 	}
 
 	/**
@@ -481,8 +472,8 @@ export default class RegExpToken {
 	 * 
 	 * @see [unicode-escape-es6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-unicode-escape-es6)
 	 */
-	static unicodeU(hhhh: string): RegExp {
-		return new RegExp(`\\u{${hhhh.padStart(4, '0')}}`);
+	static unicodeU(hhhh: string): string {
+		return `\\u{${hhhh.padStart(4, '0')}}`;
 	}
 
 	/**
@@ -535,37 +526,68 @@ export default class RegExpToken {
 		return 'y';
 	}
 
-	static getSource(regEx: string | RegExp): string {
-		if (!regEx) {
-			return '';
+	/**
+	 * Chars that need escaped
+	 */
+	static escapedChars = new Map<string, string>([
+		['^', '\\^'],
+		['\\', '\\\\'],
+		['.', '\\.'],
+		['(', '\\('],
+		[')', '\\)'],
+		['[', '\\['],
+		[']', '\\]'],
+		['?', '\\?'],
+		['+', '\\+'],
+		['*', '\\*'],
+		['|', '\\|'],
+		['$', '\\$'],
+	]);
+
+	/**
+	 * Chars that need escaped in a set expression.
+	 */
+	static escapedSetChars = new Map<string, string>([
+		['^', '\\^'],
+		['\\', '\\\\'],
+		[']', '\\]'],
+		['-', '\\-'],
+	]);
+
+	/**
+	 * Encode a raw string to a regular expression string.  
+	 * Following special characters will be encoded: `^\.()[]?+*|$`
+	 * 
+	 * For set case, encoded characters: `^\-]`  
+	 * Rules: 
+	 * - escape `^` only when it is the first char
+	 * - escape `-` only when it is not the first char and not the last char
+	 * - escaped `\]` always
+	 * @param raw the raw string 
+	 * @param forSet if for set `[]` operation
+	 */
+	static encodeRegExp(raw: string, forSet = false): string {
+		if (!raw) {
+			return raw;
 		}
-		return typeof (regEx) === 'string' ? regEx : regEx.source;
-	}
 
-	/**
-	 * Group a regular expression.
-	 * @param regExp the regular expression will be grouped
-	 */
-	static group(regExp: string | RegExp): string {
-		return `(${this.getSource(regExp)})`;
-	}
-
-	/**
-	 * Begin a group
-	 * @param name the group name
-	 */
-	static beginGroup(name?: string): string {
-		return `(${name && `?<${name}>:`}`;
-	}
-
-	/**
-	 * End a group
-	 * @param name the group name
-	 */
-	static endGroup(name?: string): string {
-		if (name) {
-			return ')';
+		let ret = '';
+		for (let index = 0; index < raw.length; index += 1) {
+			const char = raw.charAt(index);
+			if (forSet) {
+				let newChar = RegExpToken.escapedSetChars.get(char);
+				if (char === '^' && index !== 0) {
+					newChar = undefined;
+				} else if (char === '-' && (index === 0 || index === raw.length - 1)) {
+					newChar = undefined;
+				}
+				ret += newChar || char;
+			} else {
+				const newChar = RegExpToken.escapedChars.get(char);
+				ret += newChar || char;
+			}
 		}
-		return ')';
+
+		return ret;
 	}
 }

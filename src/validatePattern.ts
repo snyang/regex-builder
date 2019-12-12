@@ -1,4 +1,4 @@
-import MatchPattern from './matchPattern';
+import SeparatedValuesPattern from './separatedValuesPattern';
 import RegExpBuilder from './regExpBuilder';
 
 export default class ValidatePattern {
@@ -8,14 +8,12 @@ export default class ValidatePattern {
 	 */
 	static validateEmail(email: string): boolean {
 		const partRe = /[a-zA-Z0-9!#$&'*+\-/=?^_`{|}~]+/;
-		const reLocal = MatchPattern.aba(partRe, /\./);
-		const reDomain = MatchPattern.aba(partRe, /\./);
+		const reLocal = SeparatedValuesPattern.aba(partRe, /\./);
+		const reDomain = SeparatedValuesPattern.aba(partRe, /\./);
 		const re = new RegExpBuilder()
 			.concat([reLocal, '@', reDomain])
-			.matchAllPattern()
+			.enableMatchWhole()
 			.toRegExp();
-		console.log(re.source);
-		const result = re.exec(email);
-		return result !== null;
+		return re.test(email);
 	}
 }

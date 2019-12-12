@@ -1,9 +1,8 @@
 import BuildOptions from './buildOptions';
+import RegExpToken from './regExpToken';
 
-const Begin: string = '^'
-const End: string = '$'
-const Or: string = '|'
-const Not: string = '^'
+const Or: string = '|';
+const Not: string = '^';
 
 /**
  * Regular Expression Builder
@@ -13,10 +12,12 @@ const Not: string = '^'
 export default class RegExpBuilder {
 	// variables 
 	private variables: Map<string, string> = new Map<string, string>();
+
 	// the final regular expression
 	private result: string = '';
-	// if enable match all
-	private isMatchAll: boolean = false;
+
+	// if enable match whole
+	private isMatchWhole: boolean = false;
 
 	/**
 	 * Get the source of an expression or a variable
@@ -44,23 +45,26 @@ export default class RegExpBuilder {
 	private create(exp: string | RegExp | (string | RegExp)[],
 		options?: BuildOptions): string {
 		let source = '';
+		if (exp === undefined) {
+			return source;
+		}
 		if (typeof exp === 'string' || exp instanceof RegExp) {
 			source = this.getSource(exp);
 		} else {
 			exp.forEach((item, index) => {
 				let itemSource = this.getSource(item);
 				if (options && options.groupItem) {
-					itemSource = `(${itemSource})`
+					itemSource = `(${itemSource})`;
 				}
-				let or = ''
+				let or = '';
 				if (index > 0 && options && options.or) {
-					or = Or
+					or = Or;
 				}
 				source += `${or}${itemSource}`;
 			});
 		}
 
-		//TODO: need an option for group options?
+		// TODO: need an option for group options?
 		if (options && options.qualifier) {
 			source = `(?:${source})${options.qualifier}`;
 		}
@@ -68,10 +72,10 @@ export default class RegExpBuilder {
 		// case: group
 		if (options && options.group) {
 			if (options.notRemember) {
-				source = `(?:${source})`
+				source = `(?:${source})`;
 			} else {
 				const name = options.name || '';
-				source = `(${name.length > 0 ? `?<${name}>` : ''}${source})`
+				source = `(${name.length > 0 ? `?<${name}>:` : ''}${source})`;
 			}
 		}
 
@@ -96,7 +100,7 @@ export default class RegExpBuilder {
 	 */
 	public define(name: string,
 		exp: string | RegExp | (string | RegExp)[],
-		options: BuildOptions): RegExpBuilder {
+		options?: BuildOptions): RegExpBuilder {
 		this.variables.set(name, this.create(exp, options));
 		return this;
 	}
@@ -110,7 +114,7 @@ export default class RegExpBuilder {
 	 */
 	public defineOr(name: string,
 		exp: string | RegExp | (string | RegExp)[],
-		options: BuildOptions): RegExpBuilder {
+		options?: BuildOptions): RegExpBuilder {
 		this.variables.set(name, this.create(exp, { or: true, ...options }));
 		return this;
 	}
@@ -124,8 +128,22 @@ export default class RegExpBuilder {
 	 */
 	public defineSet(name: string,
 		exp: string | RegExp | (string | RegExp)[],
-		options: BuildOptions): RegExpBuilder {
+		options?: BuildOptions): RegExpBuilder {
 		this.variables.set(name, this.create(exp, { set: true, ...options }));
+		return this;
+	}
+
+	/**
+	 * `[^xy]`  
+	 * Define a variable for negated set
+	 * @param name the variable name
+	 * @param exp the variable expression
+	 * @param options the build options
+	 */
+	public defineNegatedSet(name: string,
+		exp: string | RegExp | (string | RegExp)[],
+		options?: BuildOptions): RegExpBuilder {
+		this.variables.set(name, this.create(exp, { set: true, negated: true, ...options }));
 		return this;
 	}
 
@@ -140,10 +158,11 @@ export default class RegExpBuilder {
 	public defineLookahead(name: string,
 		exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
+		options?: BuildOptions): RegExpBuilder {
 		this.variables.set(name, this.create(
 			`${this.getSource(exp)}(?=${this.getSource(exp2)})`,
-			options));
+			options,
+		));
 		return this;
 	}
 
@@ -158,10 +177,11 @@ export default class RegExpBuilder {
 	public defineNegatedLookahead(name: string,
 		exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
+		options?: BuildOptions): RegExpBuilder {
 		this.variables.set(name, this.create(
 			`${this.getSource(exp)}(?!${this.getSource(exp2)})`,
-			options));
+			options,
+		));
 		return this;
 	}
 
@@ -176,10 +196,11 @@ export default class RegExpBuilder {
 	public defineLookbehind(name: string,
 		exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
+		options?: BuildOptions): RegExpBuilder {
 		this.variables.set(name, this.create(
 			`(?<=${this.getSource(exp2)})${this.getSource(exp)}`,
-			options));
+			options,
+		));
 		return this;
 	}
 
@@ -194,10 +215,11 @@ export default class RegExpBuilder {
 	public defineNegatedLookbehind(name: string,
 		exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
+		options?: BuildOptions): RegExpBuilder {
 		this.variables.set(name, this.create(
 			`(?<!${this.getSource(exp2)})${this.getSource(exp)}`,
-			options));
+			options,
+		));
 		return this;
 	}
 
@@ -207,7 +229,7 @@ export default class RegExpBuilder {
 	 */
 	public stash(name: string): RegExpBuilder {
 		this.variables.set(name, this.result);
-		this.result = ''
+		this.result = '';
 		return this;
 	}
 
@@ -219,7 +241,7 @@ export default class RegExpBuilder {
 	 */
 	public concat(exp: string | RegExp | (string | RegExp)[],
 		options?: BuildOptions): RegExpBuilder {
-		let source = this.create(exp, options)
+		const source = this.create(exp, options);
 		this.result += source;
 		return this;
 	}
@@ -231,8 +253,8 @@ export default class RegExpBuilder {
 	 * @param options the build options
 	 */
 	public concatOr(exp: string | RegExp | (string | RegExp)[],
-		options: BuildOptions): RegExpBuilder {
-		let source = this.create(exp, { or: true, ...options });
+		options?: BuildOptions): RegExpBuilder {
+		const source = this.create(exp, { or: true, ...options });
 		this.result += source;
 		return this;
 	}
@@ -244,8 +266,21 @@ export default class RegExpBuilder {
 	 * @param options the build options
 	 */
 	public concatSet(exp: string | RegExp | (string | RegExp)[],
-		options: BuildOptions): RegExpBuilder {
-		let source = this.create(exp, { set: true, ...options });
+		options?: BuildOptions): RegExpBuilder {
+		const source = this.create(exp, { set: true, ...options });
+		this.result += source;
+		return this;
+	}
+
+	/**
+	 * `[^xy]`  
+	 * Concatnate an expression for negated set
+	 * @param exp the expression 
+	 * @param options the build options
+	 */
+	public concatNegatedSet(exp: string | RegExp | (string | RegExp)[],
+		options?: BuildOptions): RegExpBuilder {
+		const source = this.create(exp, { set: true, negated: true, ...options });
 		this.result += source;
 		return this;
 	}
@@ -259,10 +294,11 @@ export default class RegExpBuilder {
 	 */
 	public concatLookahead(exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
-		let source = this.create(
+		options?: BuildOptions): RegExpBuilder {
+		const source = this.create(
 			`${this.getSource(exp)}(?=${this.getSource(exp2)})`,
-			options);
+			options,
+		);
 		this.result += source;
 		return this;
 	}
@@ -276,10 +312,11 @@ export default class RegExpBuilder {
 	 */
 	public concatNegatedLookahead(exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
-		let source = this.create(
+		options?: BuildOptions): RegExpBuilder {
+		const source = this.create(
 			`${this.getSource(exp)}(?!${this.getSource(exp2)})`,
-			options);
+			options,
+		);
 		this.result += source;
 		return this;
 	}
@@ -293,10 +330,11 @@ export default class RegExpBuilder {
 	 */
 	public concatLookbehind(exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
-		let source = this.create(
+		options?: BuildOptions): RegExpBuilder {
+		const source = this.create(
 			`(?<=${this.getSource(exp2)})${this.getSource(exp)}`,
-			options);
+			options,
+		);
 		this.result += source;
 		return this;
 	}
@@ -310,10 +348,11 @@ export default class RegExpBuilder {
 	 */
 	public concatNegatedLookbehind(exp: string | RegExp,
 		exp2: string | RegExp,
-		options: BuildOptions): RegExpBuilder {
-		let source = this.create(
+		options?: BuildOptions): RegExpBuilder {
+		const source = this.create(
 			`(?<!${this.getSource(exp2)})${this.getSource(exp)}`,
-			options);
+			options,
+		);
 		this.result += source;
 		return this;
 	}
@@ -324,7 +363,7 @@ export default class RegExpBuilder {
 	 * @param name the group name
 	 */
 	public beginGroup(name?: string): RegExpBuilder {
-		this.result += `(${name && `?<${name}>:`}`;
+		this.result += `(${name ? `?<${name}>:` : ''}`;
 		return this;
 	}
 
@@ -335,17 +374,30 @@ export default class RegExpBuilder {
 	 */
 	public endGroup(name?: string): RegExpBuilder {
 		if (name) {
-			this.result += `)`
+			this.result += ')';
 		}
-		this.result += `)`
+		this.result += ')';
 		return this;
 	}
 
 	/**
-	 * Enable matchAll
+	 * Enable match whole
 	 */
-	public enableMatchAll(): RegExpBuilder {
-		this.isMatchAll = true;
+	public enableMatchWhole(): RegExpBuilder {
+		this.isMatchWhole = true;
+		return this;
+	}
+
+	/**
+	 * Clear the content
+	 * @param keepDefinitions if keep the definitions
+	 */
+	public clear(keepDefinitions: boolean = false) {
+		this.result = '';
+		this.isMatchWhole = false;
+		if (!keepDefinitions) {
+			this.variables = new Map<string, string>();
+		}
 		return this;
 	}
 
@@ -355,8 +407,8 @@ export default class RegExpBuilder {
 	 */
 	public toRegExp(flags?: string): RegExp {
 		let exp = this.result;
-		if (this.isMatchAll) {
-			exp = `${Begin}${exp}${End}`
+		if (this.isMatchWhole) {
+			exp = `${RegExpToken.begin}${exp}${RegExpToken.end}`;
 		}
 		return new RegExp(exp, flags);
 	}

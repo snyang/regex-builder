@@ -3,20 +3,19 @@
 ## Principles
 
 - provide a readable regular expression building method
-- Support raw values (bad requirements)
-  If the user want to get `/[^\\]/`, the user can only need to input `\`.
+  If the user want to get `/[^a-z]/`, the user can use `negatedSet('a-z')`.
 - Support regular expression string input
 - Support RegExp input
 - richfull concatenate functions
 - provide patterns for validation/match
 
 ## Use cases
-- raw string to regexp string (bad requirement)
+- raw string to regexp string
 
 | Expected            | Method                      |
 | ------------------- | --------------------------- |
-| `'a.b' -> /a\\.b/`  | `toRegExpString('a.b')`     |
-| `'^\]' -> /\^\\\]/` | `toRegExpSetString('^\\]')` |
+| `'a.b' -> /a\\.b/`  | `encodeRegExp('a.b')`     |
+| `'^\]' -> /\^\\\]/` | `encodeRegExp('^\\]')` |
 
 - concat
 
@@ -38,7 +37,7 @@
 | `[x]`         | `concatSet('x')`                     |
 | `[xyz]`       | `concatSet(['xy', 'z'])`             |
 | `[^xyz]`      | `concatSet(['xy', 'z'], {negated})`  |
-| `^x$`         | `concat('x').enableMatchAll()`       |
+| `^x$`         | `concat('x').enableMatchWhole()`       |
 | `x(?=y)`      | `lookahead('x', 'y')`                |
 | `x(?!y)`      | `negatedLookahead('x', 'y')`         |
 | `(?<=y)x`     | `lookbehind('x', 'y')`               |
@@ -90,6 +89,16 @@ const re = new RegExpBuilder()
   .concatSet(['digit', 'alphabetic'])
 ```
 
+## Patterns
+### Regular expression main functions
+- test: validate if an input meets a pattern
+- match: in an input, find matched values
+- replace: replace an input
+
+### Pattern: literal
+### Pattern: Separated Values
+### Pattern: replace all and multiple instances
+
 ## Tips
 ### When use `\` as escape character
 - In a character set. `[abc]`
@@ -105,5 +114,5 @@ const re = new RegExpBuilder()
 ### The or operation
 `(ab)|(cd) === ab|cd`
 
-### matchAll
-In TypeScript, it is using `/^abc$/` as matchAll `/abc/`
+### match the whole string
+In TypeScript, it is using `/^abc$/`.
