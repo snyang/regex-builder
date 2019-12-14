@@ -13,8 +13,9 @@ export default class MultiSubstitutePattern {
 		}
 
 		const exp = new RegExpBuilder()
-			.concatOr(fromStrings.map((value) => {
-				return RegExpToken.encodeRegExp(value);
+			.or(fromStrings.map((value) => {
+				const expValue = RegExpToken.encodeRegExp(value);
+				return expValue;
 			}));
 
 		return exp.toRegExp(RegExpToken.dotIsNewLineFlag

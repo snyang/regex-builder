@@ -1,78 +1,104 @@
 import RegExpBuilder from './regExpBuilder';
 
 export interface SeparatedValuesOptions {
-	qualifier: string;
-	escaper: string;
-	escaped: string;
+	qualifier?: string;
+	escaper?: string;
+	escaped?: string;
 	separator: string;
-	allowBeginSeparator: boolean;
-	allowEndSeparator: boolean;
 }
 
 /**
  * For separated values pattern.  
- * e.g. csv format: `abc,def,hig`
- * qualifier: `"`
- * escaper: `"`
- * escaped: `"`
- * separator: `,`
  */
-export default class SeparatedValuesPattern {
-	private _data: string;
-
-	private options: SeparatedValuesOptions;
-
+export default class CsvPattern {
 	/**
-	 * init
+	 * `/(("[^"]*")|[^\n])* /g`
+	 * The expression for find next row in whole content.
 	 */
-	public init(options: SeparatedValuesOptions) {
-		this.options = options;
-	}
-
-	/**
-	 * `/(?<=(^|,)("?))([^"]|"")+(?=("?)(,|$))/g;`  
-	 * The expression for find cell values in a row.
-	 */
-	getCellExp(): RegExp {
-		const re = new RegExpBuilder()
-			.concatLookahead('', `(^${this.options.separator}|)(${this.options.escaper}?)`)
-			.concatOr(
-				[
-					`[^${this.options.escaped}]`,
-					`${this.options.escaper}${this.options.escaped}`,
-				], { qualifier: '+' },
-			)
-			.concatLookbehind('', `(${this.options.escaper}?)(${this.options.separator}|$)`);
+	static getCsvRowExp(options: SeparatedValuesOptions): RegExp {
+		const newOptions = {
+			...{
+				qualifier: '"',
+				escaper: '"',
+				escaped: '"',
+				separator: ',',
+			},
+			...options,
+		};
+		const re = RegExpBuilder.new()
+			.define('qualifiedContent',
+				RegExpBuilder.new().group([
+					newOptions.qualifier,
+					RegExpBuilder.new().negatedSet(newOptions.qualifier, { qualifier: '*' }),
+					newOptions.qualifier,
+				]))
+			.define('nonSeparator',
+				RegExpBuilder.new().negatedSet(newOptions.separator))
+			.or([
+				'qualifiedContent',
+				'nonSeparator',
+			], { qualifier: '*' });
 
 		return re.toRegExp('g');
 	}
 
 	/**
-	 * `(?:b?)a(?:(b(a))*)(?:b?)`  
-	 * `/(?<=(^|,)("?))([^"]|"")+(?=("?)(,|$))/g;`  
-	 * For ABA pattern, e.g. csv format: `abc,def,hig`
+	 * `/(?<=^|,)([^",]*|"([^"]|"")*")(?=,|$)/g`
+	 * `/(?<=^|,)[^"]|("([^"]|"")*")(?=,|$))`
+	 * The expression for find cell values in a row.
+	 * Note: the result would includes qualifiers e.g. `"a"` or non-escaped content e.g. `""`. 
+	 */
+	static getCsvCellExp(options: SeparatedValuesOptions): RegExp {
+		const newOptions = {
+			...{
+				qualifier: '"',
+				escaper: '"',
+				escaped: '"',
+				separator: ',',
+			},
+			...options,
+		};
+		const re = RegExpBuilder.new()
+			.lookbehind('', `^|${newOptions.separator}`)
+			.or(
+				[
+					RegExpBuilder.new().negatedSet(
+						[newOptions.escaped, newOptions.separator],
+						{ qualifier: '*' },
+					),
+					RegExpBuilder.new().group(
+						[
+							newOptions.qualifier,
+							RegExpBuilder.new().or(
+								[`[^${newOptions.escaped}]`, `${newOptions.escaper}${newOptions.escaped}`],
+								{ qualifier: '*' },
+							),
+							newOptions.qualifier,
+						],
+					),
+				],
+				{ group: true },
+			)
+			.lookahead('', `${newOptions.separator}|$`);
+
+		return re.toRegExp('g');
+	}
+
+	/**
+	 * `column(separator(column))*`  
+	 * For ABA pattern, e.g. `abc,def,ghi`
 	 * @param column the column expression
-	 * @param separator the separator expression
-	 * @param options 
+	 * @param separator the separator
 	 */
 	static aba(column: string | RegExp,
-		separator: string | RegExp,
-		options?: { allowBeginSeparator: boolean, allowEndSeparator: boolean }): RegExp {
+		separator: string): RegExp {
 		const group = true;
 		const notRemember = true;
-		let re = new RegExpBuilder()
-			.define('separatorZeroOrOne', separator, { group, notRemember, qualifier: '?' })
+		const re = RegExpBuilder.new()
 			.define('separator', separator, { group, notRemember })
-			.define('column', column, { group });
-		if (options && options.allowBeginSeparator) {
-			re = re.concat('separatorZeroOrOne');
-		}
-		re = re.concat('column', { group });
-		re = re.concat(['separator', 'column'], { qualifier: '*' });
-		if (options && options.allowEndSeparator) {
-			re = re.concat('separatorZeroOrOne');
-		}
-
-		return re.toRegExp();
+			.define('column', column, { group })
+			.join('column', { group })
+			.join(['separator', 'column'], { qualifier: '*' });
+		return re.toRegExp('g');
 	}
 }

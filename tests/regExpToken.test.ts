@@ -52,7 +52,7 @@ test(`${prefix}.basic`, () => {
 	expect(RegExpToken.zeroOrOne).toBe('?');
 });
 
-test(`${prefix}.getRegExpString`, () => {
+test(`${prefix}.encode`, () => {
 	expect(RegExpToken.encodeRegExp('a^\\.()[]?+*|$z')).toBe('a\\^\\\\\\.\\(\\)\\[\\]\\?\\+\\*\\|\\$z');
 	expect(RegExpToken.encodeRegExp('^\\a-z]', true)).toBe('\\^\\\\a\\-z\\]');
 	expect(RegExpToken.encodeRegExp('a^z', true)).toBe('a^z');

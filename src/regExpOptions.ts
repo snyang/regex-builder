@@ -1,7 +1,7 @@
 /**
- * Build Options
+ * RegExp Options
  */
-export default interface BuildOptions {
+export default class RegExpOptions {
 	/**
 	 * qualifier: would be one of:  
 	 * `?`: zero or one  
@@ -12,6 +12,18 @@ export default interface BuildOptions {
 	 * `{n, m}`: `n` to `m` times of occurrences  
 	 */
 	qualifier?: string;
+
+	/**
+	 * `(x)*`
+	 * If need to group qualified item, work with qualifier. Default: true.  
+	 */
+	groupQualifiedItem?: boolean;
+
+	/**
+	 * `(?:x)*`
+	 * If need not to remember the group qualified item, work with qualifier. Default is false.
+	 */
+	notRememberQualifiedItem?: boolean;
 
 	/**
 	 * `(x)(y)`  

@@ -16,9 +16,9 @@ export default class LiteralPattern {
 		const re = new RegExpBuilder()
 			.define('charWithEscape', `${escape}.`)
 			.defineSet('charWithoutEscape', [qualifier, escape], { negated })
-			.concat(qualifier)
-			.concatOr(['charWithoutEscape', 'charWithEscape'], { qualifier: '*' })
-			.concat(qualifier)
+			.join(qualifier)
+			.or(['charWithoutEscape', 'charWithEscape'], { qualifier: '*' })
+			.join(qualifier)
 			.toRegExp(RegExpToken.globalSearchFlag);
 
 		return re;
