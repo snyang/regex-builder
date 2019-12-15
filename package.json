@@ -1,5 +1,5 @@
 {
-  "name": "regex-build",
+  "name": "regexp-builder",
   "version": "1.0.0",
   "description": "A Javascript/Typescript RegExp Builder",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snyang/regex-builder.git"
+    "url": "git+https://github.com/snyang/regexp-builder.git"
   },
   "keywords": [
     "JavaScript",
@@ -28,9 +28,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/snyang/regex-builder/issues"
+    "url": "https://github.com/snyang/regexp-builder/issues"
   },
-  "homepage": "https://github.com/snyang/regex-builder#readme",
+  "homepage": "https://github.com/snyang/regexp-builder#readme",
   "devDependencies": {
     "@babel/types": "^7.7.4",
     "@types/jest": "^24.0.23",

@@ -1,9 +1,9 @@
-# regex-builder
+# regexp-builder
 Building readable JavaScript/TypeScript regular expressions gracefully.
 
 ## Introduction
 
-The regex-builder is using fluent APIs (with nested parameters) to help you to build regular expressions in a readable way.
+The regexp-builder is using fluent APIs (with nested parameters) to help you to build regular expressions in a readable way.
 
 - Sample: Check IPv4
 
