@@ -1,4 +1,5 @@
 # node
+dist
 node_modules
 
 # Jest coverage files

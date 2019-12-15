@@ -1,5 +1,5 @@
 import SeparatedValuesPattern from './separatedValuesPattern';
-import RegExpBuilder from './regExpBuilder';
+import RegExpBuilder from '../src/regExpBuilder';
 
 export default class ValidatePattern {
 	static emailAddressRe: RegExp;

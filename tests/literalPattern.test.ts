@@ -1,4 +1,4 @@
-import LiteralPattern from '../src/literalPattern';
+import LiteralPattern from '../examples/literalPattern';
 
 const prefix = 'test.regexp';
 test(`${prefix}.literalPattern`, () => {

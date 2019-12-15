@@ -1,4 +1,4 @@
-import ValidatePattern from '../src/validatePattern';
+import ValidatePattern from '../examples/validatePattern';
 
 const prefix = 'test.regexp';
 test(`${prefix}.validatePattern.emailAddress`, () => {

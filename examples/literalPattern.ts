@@ -1,5 +1,5 @@
-import RegExpToken from './regExpToken';
-import RegExpBuilder from './regExpBuilder';
+import RegExpSpec from '../src/regExpSpec';
+import RegExpBuilder from '../src/regExpBuilder';
 
 export default class LiteralPattern {
 	/**
@@ -19,7 +19,7 @@ export default class LiteralPattern {
 			.join(qualifier)
 			.or(['charWithoutEscape', 'charWithEscape'], { qualifier: '*' })
 			.join(qualifier)
-			.toRegExp(RegExpToken.globalSearchFlag);
+			.toRegExp(RegExpSpec.globalSearchFlag);
 
 		return re;
 	}

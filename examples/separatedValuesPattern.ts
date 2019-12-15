@@ -1,4 +1,4 @@
-import RegExpBuilder from './regExpBuilder';
+import RegExpBuilder from '../src/regExpBuilder';
 
 export interface SeparatedValuesOptions {
 	qualifier?: string;

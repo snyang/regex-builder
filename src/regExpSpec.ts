@@ -1,9 +1,9 @@
 /**
- * Regular Expression Builder
- * 
+ * Regular Expression Specification
+ * - Provide basic elements of Javascript/Type Regular Expression
  * @see [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
  */
-export default class RegExpToken {
+export default class RegExpSpec {
 	/**
 	 * `\`, backslash.
 	 * @see [backslash](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-backslash)
@@ -524,70 +524,5 @@ export default class RegExpToken {
 	 */
 	static get strickySearchFlag(): string {
 		return 'y';
-	}
-
-	/**
-	 * Chars that need escaped
-	 */
-	static escapedChars = new Map<string, string>([
-		['^', '\\^'],
-		['\\', '\\\\'],
-		['.', '\\.'],
-		['(', '\\('],
-		[')', '\\)'],
-		['[', '\\['],
-		[']', '\\]'],
-		['?', '\\?'],
-		['+', '\\+'],
-		['*', '\\*'],
-		['|', '\\|'],
-		['$', '\\$'],
-	]);
-
-	/**
-	 * Chars that need escaped in a set expression.
-	 */
-	static escapedSetChars = new Map<string, string>([
-		['^', '\\^'],
-		['\\', '\\\\'],
-		[']', '\\]'],
-		['-', '\\-'],
-	]);
-
-	/**
-	 * Encode a raw string to a regular expression string.  
-	 * Following special characters will be encoded: `^\.()[]?+*|$`
-	 * 
-	 * For set case, encoded characters: `^\-]`  
-	 * Rules: 
-	 * - escape `^` only when it is the first char
-	 * - escape `-` only when it is not the first char and not the last char
-	 * - escaped `\]` always
-	 * @param raw the raw string 
-	 * @param forSet if for set `[]` operation
-	 */
-	static encodeRegExp(raw: string, forSet = false): string {
-		if (!raw) {
-			return raw;
-		}
-
-		let ret = '';
-		for (let index = 0; index < raw.length; index += 1) {
-			const char = raw.charAt(index);
-			if (forSet) {
-				let newChar = RegExpToken.escapedSetChars.get(char);
-				if (char === '^' && index !== 0) {
-					newChar = undefined;
-				} else if (char === '-' && (index === 0 || index === raw.length - 1)) {
-					newChar = undefined;
-				}
-				ret += newChar || char;
-			} else {
-				const newChar = RegExpToken.escapedChars.get(char);
-				ret += newChar || char;
-			}
-		}
-
-		return ret;
 	}
 }

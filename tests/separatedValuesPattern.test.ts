@@ -1,4 +1,4 @@
-import SeparatedValuesPattern from '../src/separatedValuesPattern';
+import SeparatedValuesPattern from '../examples/separatedValuesPattern';
 
 const prefix = 'test.regexp';
 test(`${prefix}.separatedValuesPattern.csv`, () => {

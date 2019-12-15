@@ -6,6 +6,14 @@ const notRemember = true;
 const notRememberQualifiedItem = true;
 
 const prefix = 'test.regexp';
+test(`${prefix}.encode`, () => {
+	expect(RegExpBuilder.encodeRegExp('a^\\.()[]?+*|$z')).toBe('a\\^\\\\\\.\\(\\)\\[\\]\\?\\+\\*\\|\\$z');
+	expect(RegExpBuilder.encodeRegExp('^\\a-z]', true)).toBe('\\^\\\\a\\-z\\]');
+	expect(RegExpBuilder.encodeRegExp('a^z', true)).toBe('a^z');
+	expect(RegExpBuilder.encodeRegExp('-z', true)).toBe('-z');
+	expect(RegExpBuilder.encodeRegExp('a-', true)).toBe('a-');
+});
+
 test(`${prefix}.`, () => {
 	// concat single
 	expect(new RegExpBuilder().join('x').toRegExp().source).toBe('x');

@@ -1,5 +1,5 @@
-import RegExpBuilder from './regExpBuilder';
-import RegExpToken from './regExpToken';
+import RegExpBuilder from '../src/regExpBuilder';
+import RegExpSpec from '../src/regExpSpec';
 
 export default class MultiSubstitutePattern {
 	/**
@@ -14,13 +14,13 @@ export default class MultiSubstitutePattern {
 
 		const exp = new RegExpBuilder()
 			.or(fromStrings.map((value) => {
-				const expValue = RegExpToken.encodeRegExp(value);
+				const expValue = RegExpBuilder.encodeRegExp(value);
 				return expValue;
 			}));
 
-		return exp.toRegExp(RegExpToken.dotIsNewLineFlag
-			+ RegExpToken.multipleLineSearchFlag
-			+ RegExpToken.globalSearchFlag);
+		return exp.toRegExp(RegExpSpec.dotIsNewLineFlag
+			+ RegExpSpec.multipleLineSearchFlag
+			+ RegExpSpec.globalSearchFlag);
 	}
 
 	/**

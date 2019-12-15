@@ -1,5 +1,5 @@
 import RegExpOptions from './regExpOptions';
-import RegExpToken from './regExpToken';
+import RegExpSpec from './regExpSpec';
 
 /**
  * RegExp Param
@@ -17,6 +17,34 @@ const Not: string = '^';
  * @see [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
  */
 export default class RegExpBuilder {
+	/**
+	 * Chars that need escaped
+	 */
+	private static escapedChars = new Map<string, string>([
+		['^', '\\^'],
+		['\\', '\\\\'],
+		['.', '\\.'],
+		['(', '\\('],
+		[')', '\\)'],
+		['[', '\\['],
+		[']', '\\]'],
+		['?', '\\?'],
+		['+', '\\+'],
+		['*', '\\*'],
+		['|', '\\|'],
+		['$', '\\$'],
+	]);
+
+	/**
+	 * Chars that need escaped in a set expression.
+	 */
+	private static escapedSetChars = new Map<string, string>([
+		['^', '\\^'],
+		['\\', '\\\\'],
+		[']', '\\]'],
+		['-', '\\-'],
+	]);
+
 	// variables 
 	private variables: Map<string, string> = new Map<string, string>();
 
@@ -26,14 +54,17 @@ export default class RegExpBuilder {
 	// if enable match whole
 	private isMatchWhole: boolean = false;
 
+	/**
+	 * Create an instance of RegExpBuilder
+	 */
 	static new(): RegExpBuilder {
 		return new RegExpBuilder();
 	}
 
 	/**
-	 * Get the source of an expression or a variable
-	 * @param exp the expression
-	 */
+ * Get the source of an expression or a variable
+ * @param exp the expression
+ */
 	private getSource(exp: string | RegExp | RegExpBuilder): string {
 		if (!exp) {
 			return '';
@@ -61,7 +92,7 @@ export default class RegExpBuilder {
 	private build(exp: RegExpParam,
 		options?: RegExpOptions): string {
 		let source = '';
-		if (exp === undefined) {
+		if (!exp) {
 			return source;
 		}
 		if (typeof exp === 'string'
@@ -93,6 +124,7 @@ export default class RegExpBuilder {
 
 		// qualifier
 		if (options && options.qualifier) {
+			// groupQualifiedItem's defalt value is true, as qualifier operations are low priority
 			if (options.groupQualifiedItem === undefined || options.groupQualifiedItem) {
 				source = `(${options.notRememberQualifiedItem ? '?:' : ''}${source})`;
 			}
@@ -110,6 +142,43 @@ export default class RegExpBuilder {
 		}
 
 		return source;
+	}
+
+	/**
+	 * Encode a raw string to a regular expression string.  
+	 * Following special characters will be encoded: `^\.()[]?+*|$`
+	 * 
+	 * For set case, encoded characters: `^\-]`  
+	 * Rules: 
+	 * - escape `^` only when it is the first char
+	 * - escape `-` only when it is not the first char and not the last char
+	 * - escaped `\]` always
+	 * @param raw the raw string 
+	 * @param forSet if for set `[]` operation
+	 */
+	static encodeRegExp(raw: string, forSet = false): string {
+		if (!raw) {
+			return raw;
+		}
+
+		let ret = '';
+		for (let index = 0; index < raw.length; index += 1) {
+			const char = raw.charAt(index);
+			if (forSet) {
+				let newChar = RegExpBuilder.escapedSetChars.get(char);
+				if (char === '^' && index !== 0) {
+					newChar = undefined;
+				} else if (char === '-' && (index === 0 || index === raw.length - 1)) {
+					newChar = undefined;
+				}
+				ret += newChar || char;
+			} else {
+				const newChar = RegExpBuilder.escapedChars.get(char);
+				ret += newChar || char;
+			}
+		}
+
+		return ret;
 	}
 
 	/**
@@ -456,7 +525,7 @@ export default class RegExpBuilder {
 	public toRegExp(flags?: string): RegExp {
 		let exp = this.result;
 		if (this.isMatchWhole) {
-			exp = `${RegExpToken.begin}${exp}${RegExpToken.end}`;
+			exp = `${RegExpSpec.begin}${exp}${RegExpSpec.end}`;
 		}
 		return new RegExp(exp, flags);
 	}

@@ -1,15 +1,17 @@
 {
   "name": "regex-builder",
   "version": "1.0.0",
-  "description": "A JS/Ts\u001b[D\u001b[D\u001b[s\u001b[C\u001b[C\u001b[S\u001b[D\u001b[D\u001b[S\u001b[C\u001b[C\u001b[C RegEx Builder",
-  "main": "index.js",
+  "description": "A JS/Ts RegExp Builder",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
     "check-types": "tsc",
     "lint:ts": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ts:fix": "eslint --fix \"src/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
-    "lint": "npm run lint:ts"
+    "lint": "npm run lint:ts",
+    "doc": "./node_modules/.bin/typedoc --out docs/api --mode modules src"
   },
   "repository": {
     "type": "git",
@@ -27,7 +29,9 @@
   },
   "homepage": "https://github.com/snyang/regex-builder#readme",
   "devDependencies": {
+    "@babel/types": "^7.7.4",
     "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.17",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "eslint": "^6.7.2",
@@ -41,6 +45,8 @@
     "eslint-plugin-simple-import-sort": "^5.0.0",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
-    "typescript": "^3.7.2"
+    "ts-node": "^8.5.4",
+    "typedoc": "^0.15.4",
+    "typescript": "^3.7.3"
   }
 }
