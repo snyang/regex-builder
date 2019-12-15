@@ -132,5 +132,8 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 | `beginGroup`                | Begin a group expression. e.g. `(`                          |
 | `endGroup`                  | End the group expression, e.g. ')'                          |
 
+### RegExpOptions
+
+
 ## References
 [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
