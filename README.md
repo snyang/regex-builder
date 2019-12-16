@@ -1,6 +1,10 @@
 # regexp-coder
 Building readable JavaScript/TypeScript regular expressions gracefully.
 
+## API Documentation
+
+[RegExp Coder API Documentation](https://snyang.github.io/regex-coder/)
+
 ## Introduction
 
 The regexp-coder is using fluent APIs (with nested parameters) to help you to build regular expressions in a readable way.
@@ -61,6 +65,7 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 
 - For complex variables, you use build-stash-build pattern.
 The `stash()` method will save the current result as a variable, then get the object cleared.
+
 **For example:**
 ```typescript
 const ipv4Exp = RegExpCoder.new()
@@ -95,15 +100,15 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 
 ## Main classes
 
-### RegExpCoder
+### [RegExpCoder](https://snyang.github.io/regex-coder/modules/_regexpcoder_.html)
 
 | Method                      | Description                                                 |
 | --------------------------- | ----------------------------------------------------------- |
 | **static methods:**         |                                                             |
 | `encodeRegExp`              | Encode a raw string to a regular expression string.         |
 |                             | For example, it will convert `. -> \.`                      |
-| `new()`                     | Create an instance of RegExpCoder                         |
-| **instance methods:**                            |                                                             |
+| `new()`                     | Create an instance of RegExpCoder                           |
+| **instance methods:**       |                                                             |
 | `join()`                    | Append an expression, .e.g `xyz`                            |
 | `group()`                   | Append a group expression, e.g. `(xyz)`                     |
 | `or()`                      | Append an or expression, e.g. `x|y|z)`                      |
@@ -132,8 +137,53 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 | `beginGroup`                | Begin a group expression. e.g. `(`                          |
 | `endGroup`                  | End the group expression, e.g. ')'                          |
 
-### RegExpOptions
+### [RegExpOptions](https://snyang.github.io/regex-coder/modules/_regexpoptions_.html)
 
+**For example:**
+```typescript
+const group = true;
+const ipv4Exp = RegExpCoder.new()
+	.or(
+		[
+			/\d/,
+			/\d\d/,
+			/1\d\d/,
+			/2[0-4]\d/,
+			/25[0-5]/,
+		],
+		{ group }, // <-- Use options here
+	)
+	.stash('sub-ip')
+	.define('dot', /\./)
+	.join([
+		'sub-ip',
+		'dot',
+		'sub-ip',
+		'dot',
+		'sub-ip',
+		'dot',
+		'sub-ip',
+	])
+	.enableMatchWhole()
+	.toRegExp();
 
-## References
-[Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+console.log(ipv4Exp.test('192.168.0.1')); // true
+console.log(ipv4Exp.test('192-168-0-1')); // false
+```
+
+| Members                  | Description                                                                        |
+| ------------------------ | ---------------------------------------------------------------------------------- |
+| qualifier                | `(xyz)*`, Define qualifier for the current expression                              |
+| groupQualifiedItem       | `(xyz)*`, If need to add a group before the qualifier for the current expression   |
+| notRememberQualifiedItem | `(?:xyz)*`, If need not to remember the qualifier group for the current expression |
+| groupItem                | `(x)(y)(z)`, If need to add a group for each items of the current expression       |
+| group                    | `(xyz)`, If need to add a group for the current expression                         |
+| name                     | `(?name:xyz)*`, name for the group                                                 |
+| notRemember              | `(?:xyz)`, If need not to remember the group for the current expression            |
+| or                       | `x|y|z`, If use the or operation for the items in the expression                   |
+| set                      | `[xyz]`, If use the set operation for the items in the expression                  |
+| negated                  | `[^xyz]`, If use the negated set operation for the items in the expression         |
+
+### [RegExpSpec](https://snyang.github.io/regex-coder/modules/_regexpspec_.html)
+
+This is one to one members of [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
