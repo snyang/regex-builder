@@ -1,7 +1,7 @@
 {
-  "name": "regexp-builder",
-  "version": "1.0.0",
-  "description": "A Javascript/Typescript RegExp Builder",
+  "name": "regexp-coder",
+  "version": "1.0.0-beta",
+  "description": "A Javascript/Typescript RegExp Coder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -11,28 +11,29 @@
     "lint:ts": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ts:fix": "eslint --fix \"src/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
     "lint": "npm run lint:ts",
-    "doc": "./node_modules/.bin/typedoc --out docs/api --mode modules src"
+    "doc": "./node_modules/.bin/typedoc --out docs --mode modules src",
+    "gulp": "gulp",
+    "build": "npm run gulp build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snyang/regexp-builder.git"
+    "url": "git+https://github.com/snyang/regexp-coder.git"
   },
   "keywords": [
     "JavaScript",
     "TypeScript",
-    "RegEx"
+    "RegExp"
   ],
   "author": {
     "name": "Steven Yang",
-    "email": "stevenn_nyang@outlook.com"    
+    "email": "steven_nyang@outlook.com"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/snyang/regexp-builder/issues"
+    "url": "https://github.com/snyang/regexp-coder/issues"
   },
-  "homepage": "https://github.com/snyang/regexp-builder#readme",
+  "homepage": "https://github.com/snyang/regexp-coder#readme",
   "devDependencies": {
-    "@babel/types": "^7.7.4",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.17",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
@@ -46,7 +47,11 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-simple-import-sort": "^5.0.0",
+    "fs": "0.0.1-security",
+    "gulp": "^4.0.2",
+    "gulp-shell": "^0.7.1",
     "jest": "^24.9.0",
+    "require-dir": "^1.2.0",
     "ts-jest": "^24.2.0",
     "ts-node": "^8.5.4",
     "typedoc": "^0.15.4",

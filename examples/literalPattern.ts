@@ -1,5 +1,5 @@
 import RegExpSpec from '../src/regExpSpec';
-import RegExpBuilder from '../src/regExpBuilder';
+import RegExpCoder from '../src/regExpCoder';
 
 export default class LiteralPattern {
 	/**
@@ -13,7 +13,7 @@ export default class LiteralPattern {
 	static literal(qualifier: string,
 		escape: string): RegExp {
 		const negated = true;
-		const re = new RegExpBuilder()
+		const re = new RegExpCoder()
 			.define('charWithEscape', `${escape}.`)
 			.defineSet('charWithoutEscape', [qualifier, escape], { negated })
 			.join(qualifier)

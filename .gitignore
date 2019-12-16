@@ -1,6 +1,7 @@
 # node
 dist
 node_modules
+*.tgz
 
 # Jest coverage files
 coverage

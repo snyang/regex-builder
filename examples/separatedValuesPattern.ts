@@ -1,4 +1,4 @@
-import RegExpBuilder from '../src/regExpBuilder';
+import RegExpCoder from '../src/regExpCoder';
 
 export interface SeparatedValuesOptions {
 	qualifier?: string;
@@ -25,15 +25,15 @@ export default class CsvPattern {
 			},
 			...options,
 		};
-		const re = RegExpBuilder.new()
+		const re = RegExpCoder.new()
 			.define('qualifiedContent',
-				RegExpBuilder.new().group([
+				RegExpCoder.new().group([
 					newOptions.qualifier,
-					RegExpBuilder.new().negatedSet(newOptions.qualifier, { qualifier: '*' }),
+					RegExpCoder.new().negatedSet(newOptions.qualifier, { qualifier: '*' }),
 					newOptions.qualifier,
 				]))
 			.define('nonSeparator',
-				RegExpBuilder.new().negatedSet(newOptions.separator))
+				RegExpCoder.new().negatedSet(newOptions.separator))
 			.or([
 				'qualifiedContent',
 				'nonSeparator',
@@ -58,18 +58,18 @@ export default class CsvPattern {
 			},
 			...options,
 		};
-		const re = RegExpBuilder.new()
+		const re = RegExpCoder.new()
 			.lookbehind('', `^|${newOptions.separator}`)
 			.or(
 				[
-					RegExpBuilder.new().negatedSet(
+					RegExpCoder.new().negatedSet(
 						[newOptions.escaped, newOptions.separator],
 						{ qualifier: '*' },
 					),
-					RegExpBuilder.new().group(
+					RegExpCoder.new().group(
 						[
 							newOptions.qualifier,
-							RegExpBuilder.new().or(
+							RegExpCoder.new().or(
 								[`[^${newOptions.escaped}]`, `${newOptions.escaper}${newOptions.escaped}`],
 								{ qualifier: '*' },
 							),
@@ -94,7 +94,7 @@ export default class CsvPattern {
 		separator: string): RegExp {
 		const group = true;
 		const notRemember = true;
-		const re = RegExpBuilder.new()
+		const re = RegExpCoder.new()
 			.define('separator', separator, { group, notRemember })
 			.define('column', column, { group })
 			.join('column', { group })

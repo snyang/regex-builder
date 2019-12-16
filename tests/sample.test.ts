@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import RegExpBuilder from '../src/regExpBuilder';
+import RegExpCoder from '../src/regExpCoder';
 
 const prefix = 'test.regexp';
 test(`${prefix}.sample.ipv4.join`, () => {
 	const subIP = /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/;
 	const dot = /\./;
-	const ipv4Exp = RegExpBuilder.new()
+	const ipv4Exp = RegExpCoder.new()
 		.join([
 			subIP,
 			dot,
@@ -30,7 +30,7 @@ test(`${prefix}.sample.ipv4.join`, () => {
 });
 
 test(`${prefix}.sample.ipv4.define`, () => {
-	const ipv4Exp = RegExpBuilder.new()
+	const ipv4Exp = RegExpCoder.new()
 		.define('sub-ip', /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/)
 		.define('dot', /\./)
 		.join([
@@ -57,9 +57,9 @@ test(`${prefix}.sample.ipv4.define`, () => {
 });
 
 test(`${prefix}.sample.ipv4.stash`, () => {
-	const ipv4Exp = RegExpBuilder.new()
+	const ipv4Exp = RegExpCoder.new()
 		.group(
-			RegExpBuilder.new().or(
+			RegExpCoder.new().or(
 				[
 					/\d/,
 					/\d\d/,

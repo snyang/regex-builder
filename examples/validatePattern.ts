@@ -1,5 +1,5 @@
 import SeparatedValuesPattern from './separatedValuesPattern';
-import RegExpBuilder from '../src/regExpBuilder';
+import RegExpCoder from '../src/regExpCoder';
 
 export default class ValidatePattern {
 	static emailAddressRe: RegExp;
@@ -14,7 +14,7 @@ export default class ValidatePattern {
 			const partRe = /[a-zA-Z0-9!#$&'*+\-/=?^_`{|}~]+/;
 			const reLocal = SeparatedValuesPattern.aba(partRe, separator);
 			const reDomain = SeparatedValuesPattern.aba(partRe, separator);
-			const re = new RegExpBuilder()
+			const re = new RegExpCoder()
 				.join([reLocal, '@', reDomain]);
 			this.emailAddressRe = re.toRegExp();
 		}
@@ -29,7 +29,7 @@ export default class ValidatePattern {
 	 */
 	static validateEmailAddress(emailAddress: string): boolean {
 		const exp = this.getEmailAddressRegExp();
-		const re = new RegExpBuilder()
+		const re = new RegExpCoder()
 			.join(exp)
 			.enableMatchWhole()
 			.toRegExp(exp.flags);

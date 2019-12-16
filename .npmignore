@@ -1,2 +1,12 @@
 tsconfig.json
+coverage
+docs
+documents
+examples
 src
+tests
+tmp
+.eslintrc
+gulpfile.js
+jest.config.js
+*.tgz

@@ -1,9 +1,9 @@
-# regexp-builder
+# regexp-coder
 Building readable JavaScript/TypeScript regular expressions gracefully.
 
 ## Introduction
 
-The regexp-builder is using fluent APIs (with nested parameters) to help you to build regular expressions in a readable way.
+The regexp-coder is using fluent APIs (with nested parameters) to help you to build regular expressions in a readable way.
 
 - Sample: Check IPv4
 
@@ -17,7 +17,7 @@ and the do element as `dot: /\./`
 ```typescript
 const subIP = /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/;
 const dot = /\./;
-const ipv4Exp = RegExpBuilder.new()
+const ipv4Exp = RegExpCoder.new()
 	.join([
 		subIP,
 		dot,
@@ -40,7 +40,7 @@ You can define elements `sub-ip` and `dot` as variables and use them later.
 **For example:**
 
 ```typescript
-const ipv4Exp = RegExpBuilder.new()
+const ipv4Exp = RegExpCoder.new()
 	.define('sub-ip', /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/)
 	.define('dot', /\./)
 	.join([
@@ -63,9 +63,9 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 The `stash()` method will save the current result as a variable, then get the object cleared.
 **For example:**
 ```typescript
-const ipv4Exp = RegExpBuilder.new()
+const ipv4Exp = RegExpCoder.new()
 	.group(
-		RegExpBuilder.new().or(
+		RegExpCoder.new().or(
 			[
 				/\d/,
 				/\d\d/,
@@ -95,14 +95,14 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 
 ## Main classes
 
-### RegExpBuilder
+### RegExpCoder
 
 | Method                      | Description                                                 |
 | --------------------------- | ----------------------------------------------------------- |
 | **static methods:**         |                                                             |
 | `encodeRegExp`              | Encode a raw string to a regular expression string.         |
 |                             | For example, it will convert `. -> \.`                      |
-| `new()`                     | Create an instance of RegExpBuilder                         |
+| `new()`                     | Create an instance of RegExpCoder                         |
 | **instance methods:**                            |                                                             |
 | `join()`                    | Append an expression, .e.g `xyz`                            |
 | `group()`                   | Append a group expression, e.g. `(xyz)`                     |

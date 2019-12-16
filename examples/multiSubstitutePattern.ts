@@ -1,4 +1,4 @@
-import RegExpBuilder from '../src/regExpBuilder';
+import RegExpCoder from '../src/regExpCoder';
 import RegExpSpec from '../src/regExpSpec';
 
 export default class MultiSubstitutePattern {
@@ -12,9 +12,9 @@ export default class MultiSubstitutePattern {
 			return null;
 		}
 
-		const exp = new RegExpBuilder()
+		const exp = new RegExpCoder()
 			.or(fromStrings.map((value) => {
-				const expValue = RegExpBuilder.encodeRegExp(value);
+				const expValue = RegExpCoder.encodeRegExp(value);
 				return expValue;
 			}));
 

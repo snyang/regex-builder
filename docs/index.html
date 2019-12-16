@@ -1,0 +1,294 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>regexp-coder</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">regexp-coder</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> regexp-coder</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#regexp-coder" id="regexp-coder" style="color: inherit; text-decoration: none;">
+					<h1>regexp-coder</h1>
+				</a>
+				<p>Building readable JavaScript/TypeScript regular expressions gracefully.</p>
+				<a href="#introduction" id="introduction" style="color: inherit; text-decoration: none;">
+					<h2>Introduction</h2>
+				</a>
+				<p>The regexp-coder is using fluent APIs (with nested parameters) to help you to build regular expressions in a readable way.</p>
+				<ul>
+					<li>Sample: Check IPv4</li>
+				</ul>
+				<p>Let&#39;s see how to use the util to define a IPv4 address in decimal number.
+					IPv4 address is presented in format of: <code>&lt;0-255&gt;.&lt;0-255&gt;.&lt;0-255&gt;.&lt;0-255&gt;</code>.
+					There are two elements, one is decimal number which is from 0 to 255, and another element is <code>.</code>.
+					We can define the decimal part as <code>subIP: /\d|\d\d|[1]\d\d|2[0-4]\d|25[0-5]/</code>
+				and the do element as <code>dot: /\./</code></p>
+				<p><strong>For example:</strong></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> subIP = <span class="hljs-regexp">/(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/</span>;
+<span class="hljs-keyword">const</span> dot = <span class="hljs-regexp">/\./</span>;
+<span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
+    .join([
+        subIP,
+        dot,
+        subIP,
+        dot,
+        subIP,
+        dot,
+        subIP,
+    ])
+    .enableMatchWhole()
+    .toRegExp();
+
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192.168.0.1'</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192-168-0-1'</span>)); <span class="hljs-comment">// false</span></code></pre>
+				<ul>
+					<li>If you like fluent API, you can use the define-build pattern.</li>
+				</ul>
+				<p>You can define elements <code>sub-ip</code> and <code>dot</code> as variables and use them later.
+				<strong>For example:</strong></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
+    .define(<span class="hljs-string">'sub-ip'</span>, <span class="hljs-regexp">/(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/</span>)
+    .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
+    .join([
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+    ])
+    .enableMatchWhole()
+    .toRegExp();
+
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192.168.0.1'</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192-168-0-1'</span>)); <span class="hljs-comment">// false</span></code></pre>
+				<ul>
+					<li>For complex variables, you use build-stash-build pattern.
+					The <code>stash()</code> method will save the current result as a variable, then get the object cleared.</li>
+					<li><em>For example:*</em><pre><code class="language-typescript"><span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
+   .group(
+       RegExpCoder.new().or(
+           [
+               <span class="hljs-regexp">/\d/</span>,
+               <span class="hljs-regexp">/\d\d/</span>,
+               <span class="hljs-regexp">/1\d\d/</span>,
+               <span class="hljs-regexp">/2[0-4]\d/</span>,
+               <span class="hljs-regexp">/25[0-5]/</span>,
+           ],
+       ),
+   )
+   .stash(<span class="hljs-string">'sub-ip'</span>)
+   .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
+   .join([
+       <span class="hljs-string">'sub-ip'</span>,
+       <span class="hljs-string">'dot'</span>,
+       <span class="hljs-string">'sub-ip'</span>,
+       <span class="hljs-string">'dot'</span>,
+       <span class="hljs-string">'sub-ip'</span>,
+       <span class="hljs-string">'dot'</span>,
+       <span class="hljs-string">'sub-ip'</span>,
+   ])
+   .enableMatchWhole()
+   .toRegExp();
+</code></pre>
+					</li>
+				</ul>
+				<p>console.log(ipv4Exp.test(&#39;192.168.0.1&#39;)); // true
+				console.log(ipv4Exp.test(&#39;192-168-0-1&#39;)); // false</p>
+				<pre><code>
+## Main classes
+
+### RegExpCoder
+
+| Method                      | Description                                                 |
+| --------------------------- | ----------------------------------------------------------- |
+| **static methods:**         |                                                             |
+| `encodeRegExp`              | Encode a raw string to a regular expression string.         |
+|                             | For example, it will convert `. -&gt; \.`                      |
+| `new()`                     | <span class="hljs-keyword">Create</span> an instance of RegExpCoder                         |
+| **instance methods:**                            |                                                             |
+| <span class="hljs-symbol">`join()`</span>                    | Append an expression, .<span class="hljs-built_in">e</span>.g <span class="hljs-symbol">`xyz`</span>                            |
+| <span class="hljs-symbol">`group()`</span>                   | Append a <span class="hljs-keyword">group</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(xyz)`</span>                     |
+| <span class="hljs-symbol">`or()`</span>                      | Append an <span class="hljs-keyword">or</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x|y|z)`</span>                      |
+| <span class="hljs-symbol">`set()`</span>                     | Append a <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[xyz]`</span>                       |
+| <span class="hljs-symbol">`negatedSet()`</span>              | Append a negated <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[^xyz]`</span>              |
+| <span class="hljs-symbol">`lookahead()`</span>               | Append a lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?=y)`</span>                |
+| <span class="hljs-symbol">`negatedLookahead()`</span>        | Append a negated lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?!y)`</span>        |
+| <span class="hljs-symbol">`lookbehind()`</span>              | Append a lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;=y)x`</span>              |
+| <span class="hljs-symbol">`negatedLookbehind()`</span>       | Append a negated lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;!y)x`</span>      |
+|                             |                                                             |
+| <span class="hljs-symbol">`define()`</span>                  | Define an expression, .<span class="hljs-built_in">e</span>.g <span class="hljs-symbol">`xyz`</span>                            |
+| <span class="hljs-symbol">`defineGroup()`</span>             | Define a <span class="hljs-keyword">group</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(xyz)`</span>                     |
+| <span class="hljs-symbol">`defineOr()`</span>                | Define an <span class="hljs-keyword">or</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x|y|z)`</span>                      |
+| <span class="hljs-symbol">`defineSet()`</span>               | Define a <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[xyz]`</span>                       |
+| <span class="hljs-symbol">`defineNegatedSet()`</span>        | Define a negated <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[^xyz]`</span>              |
+| <span class="hljs-symbol">`defineLookahead()`</span>         | Define a lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?=y)`</span>                |
+| <span class="hljs-symbol">`defineNegatedLookahead()`</span>  | Define a negated lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?!y)`</span>        |
+| <span class="hljs-symbol">`defineLookbehind()`</span>        | Define a lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;=y)x`</span>              |
+| <span class="hljs-symbol">`defineNegatedLookbehind()`</span> | Define a negated lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;!y)x`</span>      |
+|                             |                                                             |
+| <span class="hljs-symbol">`stash()`</span>                   | Define an expression <span class="hljs-keyword">from</span> the current state.                |
+|                             |                                                             |
+| <span class="hljs-symbol">`source`</span>                    | Get the source of the current state.                        |
+| <span class="hljs-symbol">`toRegExp()`</span>                | Get the RegExp instance of the current state.               |
+| <span class="hljs-symbol">`enableMatchWhole`</span>          | Enable the expression <span class="hljs-keyword">to</span> match the whole <span class="hljs-keyword">string</span>. <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`^x$`</span> |
+| <span class="hljs-symbol">`beginGroup`</span>                | <span class="hljs-keyword">Begin</span> a <span class="hljs-keyword">group</span> expression. <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(`</span>                          |
+| <span class="hljs-symbol">`endGroup`</span>                  | <span class="hljs-keyword">End</span> the <span class="hljs-keyword">group</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-string">')'</span>                          |
+
+### RegExpOptions
+
+
+## References
+[Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_regexpcoder_.html">&quot;reg<wbr>Exp<wbr>Coder&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_regexpoptions_.html">&quot;reg<wbr>Exp<wbr>Options&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_regexpspec_.html">&quot;reg<wbr>Exp<wbr>Spec&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
