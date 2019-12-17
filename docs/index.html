@@ -85,7 +85,9 @@
 					We can define the decimal part as <code>subIP: /\d|\d\d|[1]\d\d|2[0-4]\d|25[0-5]/</code>
 				and the do element as <code>dot: /\./</code></p>
 				<p><strong>For example:</strong></p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> subIP = <span class="hljs-regexp">/(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { RegExpCoder } <span class="hljs-keyword">from</span> <span class="hljs-string">'regexp-coder'</span>;
+
+<span class="hljs-keyword">const</span> subIP = <span class="hljs-regexp">/(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/</span>;
 <span class="hljs-keyword">const</span> dot = <span class="hljs-regexp">/\./</span>;
 <span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
     .join([
@@ -107,7 +109,9 @@
 				</ul>
 				<p>You can define elements <code>sub-ip</code> and <code>dot</code> as variables and use them later.
 				<strong>For example:</strong></p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { RegExpCoder } <span class="hljs-keyword">from</span> <span class="hljs-string">'regexp-coder'</span>;
+
+<span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
     .define(<span class="hljs-string">'sub-ip'</span>, <span class="hljs-regexp">/(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/</span>)
     .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
     .join([
@@ -129,7 +133,9 @@
 					The <code>stash()</code> method will save the current result as a variable, then get the object cleared.</li>
 				</ul>
 				<p><strong>For example:</strong></p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { RegExpCoder } <span class="hljs-keyword">from</span> <span class="hljs-string">'regexp-coder'</span>;
+
+<span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
     .group(
         RegExpCoder.new().or(
             [

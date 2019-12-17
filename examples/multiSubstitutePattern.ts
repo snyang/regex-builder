@@ -7,7 +7,7 @@ export default class MultiSubstitutePattern {
 	 * @param fromStrings the from strings
 	 * @return an expression instance
 	 */
-	public static getRegExp(fromStrings: string[]): RegExp {
+	public static getRegExp(fromStrings: string[]): RegExp | null {
 		if (!fromStrings) {
 			return null;
 		}
@@ -46,7 +46,7 @@ export default class MultiSubstitutePattern {
 			mapper.set(from, toStrings[index]);
 		});
 
-		let matcher = exp.exec(value);
+		let matcher = exp!.exec(value);
 		let buffer = '';
 		let lastIndex = 0;
 
@@ -54,8 +54,8 @@ export default class MultiSubstitutePattern {
 			buffer += value.substring(lastIndex, matcher.index);
 			const group = matcher[0];
 			buffer += mapper.get(group);
-			lastIndex = exp.lastIndex;
-			matcher = exp.exec(value);
+			lastIndex = exp!.lastIndex;
+			matcher = exp!.exec(value);
 		}
 
 		buffer += value.substring(lastIndex, value.length);

@@ -16,27 +16,27 @@ test(`${prefix}.separatedValuesPattern.csv`, () => {
 
 123,456,789`;
 	let match = expRow.exec(str);
-	let rowString = match[0];
+	let rowString = match![0];
 	expect(rowString).toBe('abc,"e"",\ndf",,hij');
 	let matchData = exp.exec(rowString);
 	exp.lastIndex += 1;
-	expect(matchData[0]).toBe('abc');
+	expect(matchData![0]).toBe('abc');
 	matchData = exp.exec(rowString);
 	exp.lastIndex += 1;
-	expect(matchData[0]).toBe('"e"",\ndf"');
+	expect(matchData![0]).toBe('"e"",\ndf"');
 	matchData = exp.exec(rowString);
 	exp.lastIndex += 1;
-	expect(matchData[0]).toBe('');
+	expect(matchData![0]).toBe('');
 	matchData = exp.exec(rowString);
 	exp.lastIndex += 1;
-	expect(matchData[0]).toBe('hij');
+	expect(matchData![0]).toBe('hij');
 	matchData = exp.exec(rowString);
 	exp.lastIndex += 1;
 	expect(matchData).toBe(null);
 
 	match = expRow.exec(str);
 	expRow.lastIndex += 1;
-	[rowString] = match;
+	[rowString] = match!;
 	expect(rowString).toBe('');
 	matchData = exp.exec(rowString);
 	exp.lastIndex += 1;

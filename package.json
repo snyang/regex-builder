@@ -1,13 +1,12 @@
 {
   "name": "regexp-coder",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "A Javascript/Typescript RegExp Coder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
-    "check-types": "tsc",
     "lint:ts": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ts:fix": "eslint --fix \"src/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
     "lint": "npm run lint:ts",
