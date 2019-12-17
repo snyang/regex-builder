@@ -72,7 +72,7 @@ export default class RegExpCoder {
 
 		if (typeof exp === 'string') {
 			if (this.variables.has(exp)) {
-				return this.variables.get(exp);
+				return this.variables.get(exp)!;
 			}
 			return exp;
 		}

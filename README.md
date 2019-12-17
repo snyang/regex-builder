@@ -19,6 +19,8 @@ and the do element as `dot: /\./`
 
 **For example:**
 ```typescript
+import { RegExpCoder } from 'regexp-coder';
+
 const subIP = /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/;
 const dot = /\./;
 const ipv4Exp = RegExpCoder.new()
@@ -44,6 +46,8 @@ You can define elements `sub-ip` and `dot` as variables and use them later.
 **For example:**
 
 ```typescript
+import { RegExpCoder } from 'regexp-coder';
+
 const ipv4Exp = RegExpCoder.new()
 	.define('sub-ip', /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/)
 	.define('dot', /\./)
@@ -68,6 +72,8 @@ The `stash()` method will save the current result as a variable, then get the ob
 
 **For example:**
 ```typescript
+import { RegExpCoder } from 'regexp-coder';
+
 const ipv4Exp = RegExpCoder.new()
 	.group(
 		RegExpCoder.new().or(

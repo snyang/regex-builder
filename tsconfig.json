@@ -1,13 +1,14 @@
 {
 	"compilerOptions": {
 		"outDir": "./dist",
-		"rootDir": "src",
+		"rootDir": "./src",
 		"target": "es2017",
 		"module": "commonjs",
 		"noImplicitAny": true,
 		"removeComments": false,
 		"declaration": true,
 		"sourceMap": true,
+		"strict": true
 	},
 	"include": [
 		"./src/**/*.ts"

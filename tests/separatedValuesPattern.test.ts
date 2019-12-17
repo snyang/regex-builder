@@ -6,14 +6,12 @@ test(`${prefix}.separatedValuesPattern.csv`, () => {
 		qualifier: '"',
 		separator: '\\n',
 	});
-	console.log(expRow.source);
 	const exp = SeparatedValuesPattern.getCsvCellExp({
 		qualifier: '"',
 		escaper: '"',
 		escaped: '"',
 		separator: ',',
 	});
-	console.log(exp.source);
 	const str = `abc,"e"",\ndf",,hij
 
 123,456,789`;

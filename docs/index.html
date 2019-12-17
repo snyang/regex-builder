@@ -68,6 +68,10 @@
 					<h1>regexp-coder</h1>
 				</a>
 				<p>Building readable JavaScript/TypeScript regular expressions gracefully.</p>
+				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
+					<h2>API Documentation</h2>
+				</a>
+				<p><a href="https://snyang.github.io/regex-coder/">RegExp Coder API Documentation</a></p>
 				<a href="#introduction" id="introduction" style="color: inherit; text-decoration: none;">
 					<h2>Introduction</h2>
 				</a>
@@ -123,81 +127,262 @@
 				<ul>
 					<li>For complex variables, you use build-stash-build pattern.
 					The <code>stash()</code> method will save the current result as a variable, then get the object cleared.</li>
-					<li><em>For example:*</em><pre><code class="language-typescript"><span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
-   .group(
-       RegExpCoder.new().or(
-           [
-               <span class="hljs-regexp">/\d/</span>,
-               <span class="hljs-regexp">/\d\d/</span>,
-               <span class="hljs-regexp">/1\d\d/</span>,
-               <span class="hljs-regexp">/2[0-4]\d/</span>,
-               <span class="hljs-regexp">/25[0-5]/</span>,
-           ],
-       ),
-   )
-   .stash(<span class="hljs-string">'sub-ip'</span>)
-   .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
-   .join([
-       <span class="hljs-string">'sub-ip'</span>,
-       <span class="hljs-string">'dot'</span>,
-       <span class="hljs-string">'sub-ip'</span>,
-       <span class="hljs-string">'dot'</span>,
-       <span class="hljs-string">'sub-ip'</span>,
-       <span class="hljs-string">'dot'</span>,
-       <span class="hljs-string">'sub-ip'</span>,
-   ])
-   .enableMatchWhole()
-   .toRegExp();
-</code></pre>
-					</li>
 				</ul>
-				<p>console.log(ipv4Exp.test(&#39;192.168.0.1&#39;)); // true
-				console.log(ipv4Exp.test(&#39;192-168-0-1&#39;)); // false</p>
-				<pre><code>
-## Main classes
+				<p><strong>For example:</strong></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
+    .group(
+        RegExpCoder.new().or(
+            [
+                <span class="hljs-regexp">/\d/</span>,
+                <span class="hljs-regexp">/\d\d/</span>,
+                <span class="hljs-regexp">/1\d\d/</span>,
+                <span class="hljs-regexp">/2[0-4]\d/</span>,
+                <span class="hljs-regexp">/25[0-5]/</span>,
+            ],
+        ),
+    )
+    .stash(<span class="hljs-string">'sub-ip'</span>)
+    .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
+    .join([
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+    ])
+    .enableMatchWhole()
+    .toRegExp();
 
-### RegExpCoder
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192.168.0.1'</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192-168-0-1'</span>)); <span class="hljs-comment">// false</span></code></pre>
+				<a href="#main-classes" id="main-classes" style="color: inherit; text-decoration: none;">
+					<h2>Main classes</h2>
+				</a>
+				<a href="#a-hrefhttpssnyanggithubioregex-codermodules_regexpcoder_htmlregexpcodera" id="a-hrefhttpssnyanggithubioregex-codermodules_regexpcoder_htmlregexpcodera" style="color: inherit; text-decoration: none;">
+					<h3><a href="https://snyang.github.io/regex-coder/modules/_regexpcoder_.html">RegExpCoder</a></h3>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th>Method</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><strong>static methods:</strong></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><code>encodeRegExp</code></td>
+							<td>Encode a raw string to a regular expression string.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>For example, it will convert <code>. -&gt; \.</code></td>
+						</tr>
+						<tr>
+							<td><code>new()</code></td>
+							<td>Create an instance of RegExpCoder</td>
+						</tr>
+						<tr>
+							<td><strong>instance methods:</strong></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><code>join()</code></td>
+							<td>Append an expression, .e.g <code>xyz</code></td>
+						</tr>
+						<tr>
+							<td><code>group()</code></td>
+							<td>Append a group expression, e.g. <code>(xyz)</code></td>
+						</tr>
+						<tr>
+							<td><code>or()</code></td>
+							<td>Append an or expression, e.g. `x</td>
+						</tr>
+						<tr>
+							<td><code>set()</code></td>
+							<td>Append a set expression, e.g. <code>[xyz]</code></td>
+						</tr>
+						<tr>
+							<td><code>negatedSet()</code></td>
+							<td>Append a negated set expression, e.g. <code>[^xyz]</code></td>
+						</tr>
+						<tr>
+							<td><code>lookahead()</code></td>
+							<td>Append a lookahead expression, e.g. <code>x(?=y)</code></td>
+						</tr>
+						<tr>
+							<td><code>negatedLookahead()</code></td>
+							<td>Append a negated lookahead expression, e.g. <code>x(?!y)</code></td>
+						</tr>
+						<tr>
+							<td><code>lookbehind()</code></td>
+							<td>Append a lookbehind expression, e.g. <code>(?&lt;=y)x</code></td>
+						</tr>
+						<tr>
+							<td><code>negatedLookbehind()</code></td>
+							<td>Append a negated lookbehind expression, e.g. <code>(?&lt;!y)x</code></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><code>define()</code></td>
+							<td>Define an expression, .e.g <code>xyz</code></td>
+						</tr>
+						<tr>
+							<td><code>defineGroup()</code></td>
+							<td>Define a group expression, e.g. <code>(xyz)</code></td>
+						</tr>
+						<tr>
+							<td><code>defineOr()</code></td>
+							<td>Define an or expression, e.g. `x</td>
+						</tr>
+						<tr>
+							<td><code>defineSet()</code></td>
+							<td>Define a set expression, e.g. <code>[xyz]</code></td>
+						</tr>
+						<tr>
+							<td><code>defineNegatedSet()</code></td>
+							<td>Define a negated set expression, e.g. <code>[^xyz]</code></td>
+						</tr>
+						<tr>
+							<td><code>defineLookahead()</code></td>
+							<td>Define a lookahead expression, e.g. <code>x(?=y)</code></td>
+						</tr>
+						<tr>
+							<td><code>defineNegatedLookahead()</code></td>
+							<td>Define a negated lookahead expression, e.g. <code>x(?!y)</code></td>
+						</tr>
+						<tr>
+							<td><code>defineLookbehind()</code></td>
+							<td>Define a lookbehind expression, e.g. <code>(?&lt;=y)x</code></td>
+						</tr>
+						<tr>
+							<td><code>defineNegatedLookbehind()</code></td>
+							<td>Define a negated lookbehind expression, e.g. <code>(?&lt;!y)x</code></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><code>stash()</code></td>
+							<td>Define an expression from the current state.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><code>source</code></td>
+							<td>Get the source of the current state.</td>
+						</tr>
+						<tr>
+							<td><code>toRegExp()</code></td>
+							<td>Get the RegExp instance of the current state.</td>
+						</tr>
+						<tr>
+							<td><code>enableMatchWhole</code></td>
+							<td>Enable the expression to match the whole string. e.g. <code>^x$</code></td>
+						</tr>
+						<tr>
+							<td><code>beginGroup</code></td>
+							<td>Begin a group expression. e.g. <code>(</code></td>
+						</tr>
+						<tr>
+							<td><code>endGroup</code></td>
+							<td>End the group expression, e.g. &#39;)&#39;</td>
+						</tr>
+				</tbody></table>
+				<a href="#a-hrefhttpssnyanggithubioregex-codermodules_regexpoptions_htmlregexpoptionsa" id="a-hrefhttpssnyanggithubioregex-codermodules_regexpoptions_htmlregexpoptionsa" style="color: inherit; text-decoration: none;">
+					<h3><a href="https://snyang.github.io/regex-coder/modules/_regexpoptions_.html">RegExpOptions</a></h3>
+				</a>
+				<p><strong>For example:</strong></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> group = <span class="hljs-literal">true</span>;
+<span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
+    .or(
+        [
+            <span class="hljs-regexp">/\d/</span>,
+            <span class="hljs-regexp">/\d\d/</span>,
+            <span class="hljs-regexp">/1\d\d/</span>,
+            <span class="hljs-regexp">/2[0-4]\d/</span>,
+            <span class="hljs-regexp">/25[0-5]/</span>,
+        ],
+        { group }, <span class="hljs-comment">// &lt;-- Use options here</span>
+    )
+    .stash(<span class="hljs-string">'sub-ip'</span>)
+    .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
+    .join([
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+        <span class="hljs-string">'dot'</span>,
+        <span class="hljs-string">'sub-ip'</span>,
+    ])
+    .enableMatchWhole()
+    .toRegExp();
 
-| Method                      | Description                                                 |
-| --------------------------- | ----------------------------------------------------------- |
-| **static methods:**         |                                                             |
-| `encodeRegExp`              | Encode a raw string to a regular expression string.         |
-|                             | For example, it will convert `. -&gt; \.`                      |
-| `new()`                     | <span class="hljs-keyword">Create</span> an instance of RegExpCoder                         |
-| **instance methods:**                            |                                                             |
-| <span class="hljs-symbol">`join()`</span>                    | Append an expression, .<span class="hljs-built_in">e</span>.g <span class="hljs-symbol">`xyz`</span>                            |
-| <span class="hljs-symbol">`group()`</span>                   | Append a <span class="hljs-keyword">group</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(xyz)`</span>                     |
-| <span class="hljs-symbol">`or()`</span>                      | Append an <span class="hljs-keyword">or</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x|y|z)`</span>                      |
-| <span class="hljs-symbol">`set()`</span>                     | Append a <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[xyz]`</span>                       |
-| <span class="hljs-symbol">`negatedSet()`</span>              | Append a negated <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[^xyz]`</span>              |
-| <span class="hljs-symbol">`lookahead()`</span>               | Append a lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?=y)`</span>                |
-| <span class="hljs-symbol">`negatedLookahead()`</span>        | Append a negated lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?!y)`</span>        |
-| <span class="hljs-symbol">`lookbehind()`</span>              | Append a lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;=y)x`</span>              |
-| <span class="hljs-symbol">`negatedLookbehind()`</span>       | Append a negated lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;!y)x`</span>      |
-|                             |                                                             |
-| <span class="hljs-symbol">`define()`</span>                  | Define an expression, .<span class="hljs-built_in">e</span>.g <span class="hljs-symbol">`xyz`</span>                            |
-| <span class="hljs-symbol">`defineGroup()`</span>             | Define a <span class="hljs-keyword">group</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(xyz)`</span>                     |
-| <span class="hljs-symbol">`defineOr()`</span>                | Define an <span class="hljs-keyword">or</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x|y|z)`</span>                      |
-| <span class="hljs-symbol">`defineSet()`</span>               | Define a <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[xyz]`</span>                       |
-| <span class="hljs-symbol">`defineNegatedSet()`</span>        | Define a negated <span class="hljs-keyword">set</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`[^xyz]`</span>              |
-| <span class="hljs-symbol">`defineLookahead()`</span>         | Define a lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?=y)`</span>                |
-| <span class="hljs-symbol">`defineNegatedLookahead()`</span>  | Define a negated lookahead expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`x(?!y)`</span>        |
-| <span class="hljs-symbol">`defineLookbehind()`</span>        | Define a lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;=y)x`</span>              |
-| <span class="hljs-symbol">`defineNegatedLookbehind()`</span> | Define a negated lookbehind expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(?&lt;!y)x`</span>      |
-|                             |                                                             |
-| <span class="hljs-symbol">`stash()`</span>                   | Define an expression <span class="hljs-keyword">from</span> the current state.                |
-|                             |                                                             |
-| <span class="hljs-symbol">`source`</span>                    | Get the source of the current state.                        |
-| <span class="hljs-symbol">`toRegExp()`</span>                | Get the RegExp instance of the current state.               |
-| <span class="hljs-symbol">`enableMatchWhole`</span>          | Enable the expression <span class="hljs-keyword">to</span> match the whole <span class="hljs-keyword">string</span>. <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`^x$`</span> |
-| <span class="hljs-symbol">`beginGroup`</span>                | <span class="hljs-keyword">Begin</span> a <span class="hljs-keyword">group</span> expression. <span class="hljs-built_in">e</span>.g. <span class="hljs-symbol">`(`</span>                          |
-| <span class="hljs-symbol">`endGroup`</span>                  | <span class="hljs-keyword">End</span> the <span class="hljs-keyword">group</span> expression, <span class="hljs-built_in">e</span>.g. <span class="hljs-string">')'</span>                          |
-
-### RegExpOptions
-
-
-## References
-[Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)</code></pre>
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192.168.0.1'</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(ipv4Exp.test(<span class="hljs-string">'192-168-0-1'</span>)); <span class="hljs-comment">// false</span></code></pre>
+				<table>
+					<thead>
+						<tr>
+							<th>Members</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>qualifier</td>
+							<td><code>(xyz)*</code>, Define qualifier for the current expression</td>
+						</tr>
+						<tr>
+							<td>groupQualifiedItem</td>
+							<td><code>(xyz)*</code>, If need to add a group before the qualifier for the current expression</td>
+						</tr>
+						<tr>
+							<td>notRememberQualifiedItem</td>
+							<td><code>(?:xyz)*</code>, If need not to remember the qualifier group for the current expression</td>
+						</tr>
+						<tr>
+							<td>groupItem</td>
+							<td><code>(x)(y)(z)</code>, If need to add a group for each items of the current expression</td>
+						</tr>
+						<tr>
+							<td>group</td>
+							<td><code>(xyz)</code>, If need to add a group for the current expression</td>
+						</tr>
+						<tr>
+							<td>name</td>
+							<td><code>(?name:xyz)*</code>, name for the group</td>
+						</tr>
+						<tr>
+							<td>notRemember</td>
+							<td><code>(?:xyz)</code>, If need not to remember the group for the current expression</td>
+						</tr>
+						<tr>
+							<td>or</td>
+							<td>`x</td>
+						</tr>
+						<tr>
+							<td>set</td>
+							<td><code>[xyz]</code>, If use the set operation for the items in the expression</td>
+						</tr>
+						<tr>
+							<td>negated</td>
+							<td><code>[^xyz]</code>, If use the negated set operation for the items in the expression</td>
+						</tr>
+				</tbody></table>
+				<a href="#a-hrefhttpssnyanggithubioregex-codermodules_regexpspec_htmlregexpspeca" id="a-hrefhttpssnyanggithubioregex-codermodules_regexpspec_htmlregexpspeca" style="color: inherit; text-decoration: none;">
+					<h3><a href="https://snyang.github.io/regex-coder/modules/_regexpspec_.html">RegExpSpec</a></h3>
+				</a>
+				<p>This is one to one members of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Regular Expressions</a>.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -205,6 +390,9 @@
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_regexpcoder_.html">&quot;reg<wbr>Exp<wbr>Coder&quot;</a>
