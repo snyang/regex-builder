@@ -3,7 +3,7 @@ Building readable JavaScript/TypeScript regular expressions gracefully.
 
 ## API Documentation
 
-[RegExp Coder API Documentation](https://snyang.github.io/regex-coder/)
+[RegExp Coder API Documentation](https://snyang.github.io/regexp-coder/)
 
 ## Introduction
 
@@ -106,7 +106,7 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 
 ## Main classes
 
-### [RegExpCoder](https://snyang.github.io/regex-coder/modules/_regexpcoder_.html)
+### [RegExpCoder](https://snyang.github.io/regexp-coder/modules/_regexpcoder_.html)
 
 | Method                      | Description                                                 |
 | --------------------------- | ----------------------------------------------------------- |
@@ -143,7 +143,7 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 | `beginGroup`                | Begin a group expression. e.g. `(`                          |
 | `endGroup`                  | End the group expression, e.g. ')'                          |
 
-### [RegExpOptions](https://snyang.github.io/regex-coder/modules/_regexpoptions_.html)
+### [RegExpOptions](https://snyang.github.io/regexp-coder/modules/_regexpoptions_.html)
 
 **For example:**
 ```typescript
@@ -190,6 +190,6 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 | set                      | `[xyz]`, If use the set operation for the items in the expression                  |
 | negated                  | `[^xyz]`, If use the negated set operation for the items in the expression         |
 
-### [RegExpSpec](https://snyang.github.io/regex-coder/modules/_regexpspec_.html)
+### [RegExpSpec](https://snyang.github.io/regexp-coder/modules/_regexpspec_.html)
 
 This is one to one members of [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
