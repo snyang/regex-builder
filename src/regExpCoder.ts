@@ -1,12 +1,11 @@
-import RegExpOptions from './regExpOptions';
-import RegExpSpec from './regExpSpec';
+// eslint-disable-next-line import/no-cycle
+import { RegExpOptions } from './regExpOptions';
+import { RegExpSpec } from './regExpSpec';
 
 /**
  * RegExp Param
  */
-export type RegExpParam =
-	string | RegExp | RegExpCoder
-	| (string | RegExp | RegExpCoder)[];
+export type RegExpParam = undefined | string | RegExp | RegExpCoder | RegExpOptions;
 
 const Or: string = '|';
 const Not: string = '^';
@@ -16,7 +15,7 @@ const Not: string = '^';
  * 
  * @see [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
  */
-export default class RegExpCoder {
+export class RegExpCoder {
 	/**
 	 * Chars that need escaped
 	 */
@@ -62,63 +61,51 @@ export default class RegExpCoder {
 	}
 
 	/**
- * Get the source of an expression or a variable
- * @param exp the expression
- */
-	private getSource(exp: string | RegExp | RegExpCoder): string {
+	 * Get the last options if there is
+	 * @param exp the expression
+	 */
+	private getParamOptions(...exp: RegExpParam[]): undefined | RegExpOptions {
+		if (!this) {
+			return undefined;
+		}
+
 		if (!exp) {
-			return '';
+			return undefined;
 		}
 
-		if (typeof exp === 'string') {
-			if (this.variables.has(exp)) {
-				return this.variables.get(exp)!;
-			}
-			return exp;
+		const lastParam = exp[exp.length - 1];
+		if (!lastParam) {
+			return undefined;
 		}
 
-		if (exp instanceof RegExp) {
-			return exp.source;
+		if (typeof lastParam === 'string' || lastParam instanceof RegExpCoder || lastParam instanceof RegExp) {
+			return undefined;
 		}
 
-		return exp.source;
+		if (lastParam.expression) {
+			return undefined;
+		}
+
+		return lastParam;
 	}
 
 	/**
-	 * create an expression
-	 * @param exp the expression 
-	 * @param options the build options
+	 * Apply options to a specific expression
+	 * @param exp the expression
+	 * @param options the options
 	 */
-	private build(exp: RegExpParam,
-		options?: RegExpOptions): string {
-		let source = '';
-		if (!exp) {
-			return source;
-		}
-		if (typeof exp === 'string'
-			|| exp instanceof RegExp
-			|| exp instanceof RegExpCoder) {
-			source = this.getSource(exp);
-		} else {
-			exp.forEach((item, index) => {
-				let itemSource = this.getSource(item);
-				if (options && options.groupItem) {
-					itemSource = `(${itemSource})`;
-				}
-				let or = '';
-				if (index > 0 && options && options.or) {
-					or = Or;
-				}
-				source += `${or}${itemSource}`;
-			});
+	private applyOptions(exp: string, options?: RegExpOptions): string {
+		if (!this) {
+			return '';
 		}
 
+		let source = exp;
 		// case: set
-		// case: negated, work with set
-		if (options && options.negated) {
-			source = `${Not}${source}`;
-		}
-		if (options && options.set) {
+		if (options && options.negatedSet) {
+			// case: negatedSet
+			source = `[${Not}${source}]`;
+		} else if (options && options.set) {
+			// case: set
 			source = `[${source}]`;
 		}
 
@@ -142,6 +129,73 @@ export default class RegExpCoder {
 		}
 
 		return source;
+	}
+
+	/**
+ * Get the source of an expression or a variable
+ * @param exp the expression
+ */
+	private getSource(exp: RegExpParam): string {
+		if (!exp) {
+			return '';
+		}
+
+		// case: string
+		if (typeof exp === 'string') {
+			if (this.variables.has(exp)) {
+				// case: variable
+				return this.variables.get(exp)!;
+			}
+			return exp;
+		}
+
+		// case: RegExp
+		if (exp instanceof RegExp) {
+			return exp.source;
+		}
+
+		// case: RegExpCoder
+		if (exp instanceof RegExpCoder) {
+			return exp.source;
+		}
+
+		// case: RegExpOptions
+		if (exp.expression) {
+			return this.applyOptions(this.getSource(exp.expression), exp);
+		}
+
+		// case: RegExpOptions without expression, 
+		// return empty, the option will be used by outside
+		return '';
+	}
+
+	/**
+	 * create an expression
+	 * @param exp the expression 
+	 */
+	private build(...exp: RegExpParam[]): string {
+		let source = '';
+		if (!exp) {
+			return source;
+		}
+
+		const totalOptions = this.getParamOptions(...exp);
+
+		exp.forEach((item, index) => {
+			let itemSource = this.getSource(item);
+			if (itemSource) {
+				if (totalOptions && totalOptions.groupItem) {
+					itemSource = `(${itemSource})`;
+				}
+				let or = '';
+				if (index > 0 && totalOptions && totalOptions.or) {
+					or = Or;
+				}
+				source += `${or}${itemSource}`;
+			}
+		});
+
+		return this.applyOptions(source, totalOptions);
 	}
 
 	/**
@@ -186,12 +240,10 @@ export default class RegExpCoder {
 	 * Define a variable
 	 * @param name the variable name
 	 * @param exp the variable expression
-	 * @param options the build options
 	 */
 	public define(name: string,
-		exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		this.variables.set(name, this.build(exp, options));
+		...exp: RegExpParam[]): RegExpCoder {
+		this.variables.set(name, this.build(...exp, this.getParamOptions(...exp)));
 		return this;
 	}
 
@@ -200,12 +252,10 @@ export default class RegExpCoder {
 	 * Define a variable for group operation
 	 * @param name the variable name
 	 * @param exp the variable expression
-	 * @param options the build options
 	 */
 	public defineGroup(name: string,
-		exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		this.variables.set(name, this.build(exp, { group: true, ...options }));
+		...exp: RegExpParam[]): RegExpCoder {
+		this.variables.set(name, this.build(...exp, { group: true, ...this.getParamOptions(...exp) }));
 		return this;
 	}
 
@@ -214,12 +264,10 @@ export default class RegExpCoder {
 	 * Define a variable for or operation
 	 * @param name the variable name
 	 * @param exp the variable expression
-	 * @param options the build options
 	 */
 	public defineOr(name: string,
-		exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		this.variables.set(name, this.build(exp, { or: true, ...options }));
+		...exp: RegExpParam[]): RegExpCoder {
+		this.variables.set(name, this.build(...exp, { or: true, ...this.getParamOptions(...exp) }));
 		return this;
 	}
 
@@ -228,12 +276,10 @@ export default class RegExpCoder {
 	 * Define a variable for set
 	 * @param name the variable name
 	 * @param exp the variable expression
-	 * @param options the build options
 	 */
 	public defineSet(name: string,
-		exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		this.variables.set(name, this.build(exp, { set: true, ...options }));
+		...exp: RegExpParam[]): RegExpCoder {
+		this.variables.set(name, this.build(...exp, { set: true, ...this.getParamOptions(...exp) }));
 		return this;
 	}
 
@@ -242,12 +288,11 @@ export default class RegExpCoder {
 	 * Define a variable for negated set
 	 * @param name the variable name
 	 * @param exp the variable expression
-	 * @param options the build options
 	 */
 	public defineNegatedSet(name: string,
-		exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		this.variables.set(name, this.build(exp, { set: true, negated: true, ...options }));
+		...exp: RegExpParam[]): RegExpCoder {
+		this.variables.set(name, this.build(...exp,
+			{ negatedSet: true, ...this.getParamOptions(...exp) }));
 		return this;
 	}
 
@@ -341,11 +386,9 @@ export default class RegExpCoder {
 	 * `xy`  
 	 * Append an expression 
 	 * @param exp the expression 
-	 * @param options the build options
 	 */
-	public join(exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		const source = this.build(exp, options);
+	public join(...exp: RegExpParam[]): RegExpCoder {
+		const source = this.build(...exp);
 		this.result += source;
 		return this;
 	}
@@ -354,11 +397,9 @@ export default class RegExpCoder {
 	 * `(xy)`  
 	 * Append an expression for or operation
 	 * @param exp the expression 
-	 * @param options the build options
 	 */
-	public group(exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		const source = this.build(exp, { group: true, ...options });
+	public group(...exp: RegExpParam[]): RegExpCoder {
+		const source = this.build(...exp, { group: true, ...this.getParamOptions(...exp) });
 		this.result += source;
 		return this;
 	}
@@ -367,11 +408,9 @@ export default class RegExpCoder {
 	 * `x|y`  
 	 * Append an expression for or operation
 	 * @param exp the expression 
-	 * @param options the build options
 	 */
-	public or(exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		const source = this.build(exp, { or: true, ...options });
+	public or(...exp: RegExpParam[]): RegExpCoder {
+		const source = this.build(...exp, { or: true, ...this.getParamOptions(...exp) });
 		this.result += source;
 		return this;
 	}
@@ -380,11 +419,9 @@ export default class RegExpCoder {
 	 * `[xy]`  
 	 * Append an expression for set
 	 * @param exp the expression 
-	 * @param options the build options
 	 */
-	public set(exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		const source = this.build(exp, { set: true, ...options });
+	public set(...exp: RegExpParam[]): RegExpCoder {
+		const source = this.build(...exp, { set: true, ...this.getParamOptions(...exp) });
 		this.result += source;
 		return this;
 	}
@@ -393,11 +430,9 @@ export default class RegExpCoder {
 	 * `[^xy]`  
 	 * Append an expression for negated set
 	 * @param exp the expression 
-	 * @param options the build options
 	 */
-	public negatedSet(exp: RegExpParam,
-		options?: RegExpOptions): RegExpCoder {
-		const source = this.build(exp, { set: true, negated: true, ...options });
+	public negatedSet(...exp: RegExpParam[]): RegExpCoder {
+		const source = this.build(...exp, { negatedSet: true, ...this.getParamOptions(...exp) });
 		this.result += source;
 		return this;
 	}

@@ -21,6 +21,8 @@
 			"ignoreComments": true
 		}],
 		"linebreak-style": "off",
+		"import/prefer-default-export": "off",
+		"import/no-default-export": "error",
 		"@typescript-eslint/indent": ["error", "tab", {
 			"SwitchCase": 1
 		}],

@@ -1,12 +1,12 @@
-import SeparatedValuesPattern from '../examples/separatedValuesPattern';
+import { CsvPattern } from '../examples/separatedValuesPattern';
 
 const prefix = 'test.regexp';
 test(`${prefix}.separatedValuesPattern.csv`, () => {
-	const expRow = SeparatedValuesPattern.getCsvRowExp({
+	const expRow = CsvPattern.getCsvRowExp({
 		qualifier: '"',
 		separator: '\\n',
 	});
-	const exp = SeparatedValuesPattern.getCsvCellExp({
+	const exp = CsvPattern.getCsvCellExp({
 		qualifier: '"',
 		escaper: '"',
 		escaped: '"',

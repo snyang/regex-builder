@@ -1,5 +1,11 @@
-import RegExpCoder from './regExpCoder';
-import RegExpOptions from './regExpOptions';
-import RegExpSpec from './regExpSpec';
+import { RegExpCoder } from './regExpCoder';
+import { RegExpLib } from './regExpLib';
+import { RegExpOptions } from './regExpOptions';
+import { RegExpSpec } from './regExpSpec';
 
-export { RegExpCoder, RegExpOptions, RegExpSpec };
+export {
+	RegExpCoder,
+	RegExpLib,
+	RegExpOptions,
+	RegExpSpec,
+};

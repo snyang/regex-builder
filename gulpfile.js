@@ -18,9 +18,15 @@ gulp.task('dist', shell.task(['tsc'], {
 	cwd: root,
 }));
 
-gulp.task('doc', shell.task(['npm run doc'], {
+gulp.task('doc', shell.task(`${path.join('node_modules', '.bin', 'typedoc')} --out docs --excludePrivate --gitRevision master --mode modules src`, {
 	cwd: root,
 }));
+
+gulp.task('docs:copy', (cb) => {
+	gulp.src([path.join(root, '.nojekyll')])
+		.pipe(gulp.dest(path.join(root, 'docs')));
+	cb();
+});
 
 gulp.task('pack', shell.task(['npm pack'], {
 	cwd: root,
@@ -38,4 +44,4 @@ gulp.task('clean', (cb) => {
 	cb();
 });
 
-gulp.task('build', gulp.series('lint', 'test', 'clean', 'dist', 'doc', 'pack'));
+gulp.task('build', gulp.series('lint', 'test', 'clean', 'dist', 'doc', 'docs:copy', 'pack'));

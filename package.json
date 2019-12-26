@@ -1,6 +1,6 @@
 {
   "name": "regexp-coder",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A Javascript/Typescript RegExp Coder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,7 +10,7 @@
     "lint:ts": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ts:fix": "eslint --fix \"src/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
     "lint": "npm run lint:ts",
-    "doc": "./node_modules/.bin/typedoc --out docs --mode modules src",
+    "doc": "npm run gulp doc && npm run gulp docs:copy",
     "gulp": "gulp",
     "build": "npm run gulp build"
   },

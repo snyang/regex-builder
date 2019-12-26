@@ -1,7 +1,7 @@
-import SeparatedValuesPattern from './separatedValuesPattern';
-import RegExpCoder from '../src/regExpCoder';
+import { CsvPattern } from './separatedValuesPattern';
+import { RegExpCoder } from '../src/regExpCoder';
 
-export default class ValidatePattern {
+export class ValidatePattern {
 	static emailAddressRe: RegExp;
 
 	/**
@@ -12,10 +12,10 @@ export default class ValidatePattern {
 		const separator = '.';
 		if (!this.emailAddressRe) {
 			const partRe = /[a-zA-Z0-9!#$&'*+\-/=?^_`{|}~]+/;
-			const reLocal = SeparatedValuesPattern.aba(partRe, separator);
-			const reDomain = SeparatedValuesPattern.aba(partRe, separator);
+			const reLocal = CsvPattern.aba(partRe, separator);
+			const reDomain = CsvPattern.aba(partRe, separator);
 			const re = new RegExpCoder()
-				.join([reLocal, '@', reDomain]);
+				.join(reLocal, '@', reDomain);
 			this.emailAddressRe = re.toRegExp();
 		}
 

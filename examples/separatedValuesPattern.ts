@@ -1,4 +1,4 @@
-import RegExpCoder from '../src/regExpCoder';
+import { RegExpCoder } from '../src/regExpCoder';
 
 export interface SeparatedValuesOptions {
 	qualifier?: string;
@@ -10,7 +10,7 @@ export interface SeparatedValuesOptions {
 /**
  * For separated values pattern.  
  */
-export default class CsvPattern {
+export class CsvPattern {
 	/**
 	 * `/(("[^"]*")|[^\n])* /g`
 	 * The expression for find next row in whole content.
@@ -27,17 +27,18 @@ export default class CsvPattern {
 		};
 		const re = RegExpCoder.new()
 			.define('qualifiedContent',
-				RegExpCoder.new().group([
+				RegExpCoder.new().group(
 					newOptions.qualifier,
 					RegExpCoder.new().negatedSet(newOptions.qualifier, { qualifier: '*' }),
 					newOptions.qualifier,
-				]))
+				))
 			.define('nonSeparator',
 				RegExpCoder.new().negatedSet(newOptions.separator))
-			.or([
+			.or(
 				'qualifiedContent',
 				'nonSeparator',
-			], { qualifier: '*' });
+				{ qualifier: '*' },
+			);
 
 		return re.toRegExp('g');
 	}
@@ -61,22 +62,20 @@ export default class CsvPattern {
 		const re = RegExpCoder.new()
 			.lookbehind('', `^|${newOptions.separator}`)
 			.or(
-				[
-					RegExpCoder.new().negatedSet(
-						[newOptions.escaped, newOptions.separator],
+				RegExpCoder.new().negatedSet(
+					newOptions.escaped,
+					newOptions.separator,
+					{ qualifier: '*' },
+				),
+				RegExpCoder.new().group(
+					newOptions.qualifier,
+					RegExpCoder.new().or(
+						`[^${newOptions.escaped}]`,
+						`${newOptions.escaper}${newOptions.escaped}`,
 						{ qualifier: '*' },
 					),
-					RegExpCoder.new().group(
-						[
-							newOptions.qualifier,
-							RegExpCoder.new().or(
-								[`[^${newOptions.escaped}]`, `${newOptions.escaper}${newOptions.escaped}`],
-								{ qualifier: '*' },
-							),
-							newOptions.qualifier,
-						],
-					),
-				],
+					newOptions.qualifier,
+				),
 				{ group: true },
 			)
 			.lookahead('', `${newOptions.separator}|$`);
@@ -98,7 +97,7 @@ export default class CsvPattern {
 			.define('separator', separator, { group, notRemember })
 			.define('column', column, { group })
 			.join('column', { group })
-			.join(['separator', 'column'], { qualifier: '*' });
+			.join('separator', 'column', { qualifier: '*' });
 		return re.toRegExp('g');
 	}
 }
