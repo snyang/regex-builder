@@ -177,6 +177,7 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 
 | Members                  | Description                                                                        |
 | ------------------------ | ---------------------------------------------------------------------------------- |
+| expression               | The current expression                                                             |
 | qualifier                | `(xyz)*`, Define qualifier for the current expression                              |
 | groupQualifiedItem       | `(xyz)*`, If need to add a group before the qualifier for the current expression   |
 | notRememberQualifiedItem | `(?:xyz)*`, If need not to remember the qualifier group for the current expression |
