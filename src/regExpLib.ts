@@ -2,8 +2,8 @@ import { RegExpCoder } from './regExpCoder';
 
 export class RegExpLib {
 	/**
-	 * Get expression of email addresses
-	 * (Email Address Spec)[https://tools.ietf.org/html/rfc5322#section-3.4]
+	 * Get expression of email addresses  
+	 * [Email Address Spec](https://tools.ietf.org/html/rfc5322#section-3.4)
 	 */
 	static getEmailAddressRegExp(): RegExp {
 		const separator = '.';
