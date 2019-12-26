@@ -1,4 +1,4 @@
-import RegExpCoder from '../src/regExpCoder';
+import { RegExpCoder } from '../src/regExpCoder';
 
 const group = true;
 const groupItem = true;
@@ -25,28 +25,28 @@ test(`${prefix}.`, () => {
 	expect(new RegExpCoder().join(/x/, { group, notRemember }).toRegExp().source).toBe('(?:x)');
 	expect(new RegExpCoder().join(/x/, { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x)');
 	// concat multiple 
-	expect(new RegExpCoder().join(['x', 'y', 'z']).toRegExp().source).toBe('xyz');
-	expect(new RegExpCoder().join(['x', 'y', 'z'], { group }).toRegExp().source).toBe('(xyz)');
-	expect(new RegExpCoder().join(['x', 'y', 'z'], { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
-	expect(new RegExpCoder().join(['x', 'y', 'z'], { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
-	expect(new RegExpCoder().join([/x/, /y/, /z/]).toRegExp().source).toBe('xyz');
-	expect(new RegExpCoder().join([/x/, /y/, /z/], { group }).toRegExp().source).toBe('(xyz)');
-	expect(new RegExpCoder().join([/x/, /y/, /z/], { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
-	expect(new RegExpCoder().join(['x', /y/, /z/], { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
-	expect(new RegExpCoder().join(['x', 'y', 'z'], { qualifier: '*' }).toRegExp().source).toBe('(xyz)*');
-	expect(new RegExpCoder().join(['x', 'y', 'z'], { qualifier: '*', notRememberQualifiedItem }).toRegExp().source).toBe('(?:xyz)*');
-	expect(new RegExpCoder().join(['x'], { qualifier: '*', groupQualifiedItem: false }).toRegExp().source).toBe('x*');
+	expect(new RegExpCoder().join('x', 'y', 'z').toRegExp().source).toBe('xyz');
+	expect(new RegExpCoder().join('x', 'y', 'z', { group }).toRegExp().source).toBe('(xyz)');
+	expect(new RegExpCoder().join('x', 'y', 'z', { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
+	expect(new RegExpCoder().join('x', 'y', 'z', { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
+	expect(new RegExpCoder().join(/x/, /y/, /z/).toRegExp().source).toBe('xyz');
+	expect(new RegExpCoder().join(/x/, /y/, /z/, { group }).toRegExp().source).toBe('(xyz)');
+	expect(new RegExpCoder().join(/x/, /y/, /z/, { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
+	expect(new RegExpCoder().join('x', /y/, /z/, { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
+	expect(new RegExpCoder().join('x', 'y', 'z', { qualifier: '*' }).toRegExp().source).toBe('(xyz)*');
+	expect(new RegExpCoder().join('x', 'y', 'z', { qualifier: '*', notRememberQualifiedItem }).toRegExp().source).toBe('(?:xyz)*');
+	expect(new RegExpCoder().join('x', { qualifier: '*', groupQualifiedItem: false }).toRegExp().source).toBe('x*');
 	// or
-	expect(new RegExpCoder().or(['x', 'y', 'z']).toRegExp().source).toBe('x|y|z');
-	expect(new RegExpCoder().or(['x', 'y', 'z'], { group }).toRegExp().source).toBe('(x|y|z)');
-	expect(new RegExpCoder().or(['x', 'y', 'z'], { group, notRemember }).toRegExp().source).toBe('(?:x|y|z)');
-	expect(new RegExpCoder().or(['x', 'y', 'z'], { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x|y|z)');
-	expect(new RegExpCoder().or(['x', 'y', 'z'], { groupItem }).toRegExp().source).toBe('(x)|(y)|(z)');
-	expect(new RegExpCoder().or([/x/, 'y', 'z'], { groupItem, group }).toRegExp().source).toBe('((x)|(y)|(z))');
+	expect(new RegExpCoder().or('x', 'y', 'z').toRegExp().source).toBe('x|y|z');
+	expect(new RegExpCoder().or('x', 'y', 'z', { group }).toRegExp().source).toBe('(x|y|z)');
+	expect(new RegExpCoder().or('x', 'y', 'z', { group, notRemember }).toRegExp().source).toBe('(?:x|y|z)');
+	expect(new RegExpCoder().or('x', 'y', 'z', { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x|y|z)');
+	expect(new RegExpCoder().or('x', 'y', 'z', { groupItem }).toRegExp().source).toBe('(x)|(y)|(z)');
+	expect(new RegExpCoder().or(/x/, 'y', 'z', { groupItem, group }).toRegExp().source).toBe('((x)|(y)|(z))');
 	// set
 	expect(new RegExpCoder().set('x').toRegExp().source).toBe('[x]');
-	expect(new RegExpCoder().set(['x', 'y', 'z']).toRegExp().source).toBe('[xyz]');
-	expect(new RegExpCoder().negatedSet(['x', 'y', 'z']).toRegExp().source).toBe('[^xyz]');
+	expect(new RegExpCoder().set('x', 'y', 'z').toRegExp().source).toBe('[xyz]');
+	expect(new RegExpCoder().negatedSet('x', 'y', 'z').toRegExp().source).toBe('[^xyz]');
 	// look
 	expect(new RegExpCoder().lookahead('x', 'y').toRegExp().source).toBe('x(?=y)');
 	expect(new RegExpCoder().negatedLookahead('x', 'y').toRegExp().source).toBe('x(?!y)');
@@ -70,33 +70,33 @@ test(`${prefix}.define`, () => {
 	expect(exp.join('a', { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x)');
 	exp.clear(true);
 	// concat multiple 
-	expect(exp.join(['a', 'b', 'z']).toRegExp().source).toBe('xyz');
+	expect(exp.join('a', 'b', 'z').toRegExp().source).toBe('xyz');
 	exp.clear(true);
-	expect(exp.join(['a', 'b', 'z'], { group }).toRegExp().source).toBe('(xyz)');
+	expect(exp.join('a', 'b', 'z', { group }).toRegExp().source).toBe('(xyz)');
 	exp.clear(true);
-	expect(exp.join(['a', 'b', 'z'], { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
+	expect(exp.join('a', 'b', 'z', { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
 	exp.clear(true);
-	expect(exp.join(['a', 'b', /z/], { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
+	expect(exp.join('a', 'b', /z/, { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
 	exp.clear(true);
 	// or
-	expect(exp.or(['a', 'b', 'z']).toRegExp().source).toBe('x|y|z');
+	expect(exp.or('a', 'b', 'z').toRegExp().source).toBe('x|y|z');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { group }).toRegExp().source).toBe('(x|y|z)');
+	expect(exp.or('a', 'b', 'z', { group }).toRegExp().source).toBe('(x|y|z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { group, notRemember }).toRegExp().source).toBe('(?:x|y|z)');
+	expect(exp.or('a', 'b', 'z', { group, notRemember }).toRegExp().source).toBe('(?:x|y|z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x|y|z)');
+	expect(exp.or('a', 'b', 'z', { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x|y|z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { groupItem }).toRegExp().source).toBe('(x)|(y)|(z)');
+	expect(exp.or('a', 'b', 'z', { groupItem }).toRegExp().source).toBe('(x)|(y)|(z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', /z/], { groupItem, group }).toRegExp().source).toBe('((x)|(y)|(z))');
+	expect(exp.or('a', 'b', /z/, { groupItem, group }).toRegExp().source).toBe('((x)|(y)|(z))');
 	exp.clear(true);
 	// set
 	expect(exp.set('a').toRegExp().source).toBe('[x]');
 	exp.clear(true);
-	expect(exp.set(['a', 'b', 'z']).toRegExp().source).toBe('[xyz]');
+	expect(exp.set('a', 'b', 'z').toRegExp().source).toBe('[xyz]');
 	exp.clear(true);
-	expect(exp.negatedSet(['a', 'b', 'z']).toRegExp().source).toBe('[^xyz]');
+	expect(exp.negatedSet('a', 'b', 'z').toRegExp().source).toBe('[^xyz]');
 	exp.clear(true);
 	// look
 	expect(exp.lookahead('a', 'b').toRegExp().source).toBe('x(?=y)');
@@ -127,33 +127,33 @@ test(`${prefix}..stash`, () => {
 	expect(exp.join('a', { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x)');
 	exp.clear(true);
 	// concat multiple 
-	expect(exp.join(['a', 'b', 'z']).toRegExp().source).toBe('xyz');
+	expect(exp.join('a', 'b', 'z').toRegExp().source).toBe('xyz');
 	exp.clear(true);
-	expect(exp.join(['a', 'b', 'z'], { group }).toRegExp().source).toBe('(xyz)');
+	expect(exp.join('a', 'b', 'z', { group }).toRegExp().source).toBe('(xyz)');
 	exp.clear(true);
-	expect(exp.join(['a', 'b', 'z'], { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
+	expect(exp.join('a', 'b', 'z', { group, notRemember }).toRegExp().source).toBe('(?:xyz)');
 	exp.clear(true);
-	expect(exp.join(['a', 'b', /z/], { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
+	expect(exp.join('a', 'b', /z/, { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:xyz)');
 	exp.clear(true);
 	// or
-	expect(exp.or(['a', 'b', 'z']).toRegExp().source).toBe('x|y|z');
+	expect(exp.or('a', 'b', 'z').toRegExp().source).toBe('x|y|z');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { group }).toRegExp().source).toBe('(x|y|z)');
+	expect(exp.or('a', 'b', 'z', { group }).toRegExp().source).toBe('(x|y|z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { group, notRemember }).toRegExp().source).toBe('(?:x|y|z)');
+	expect(exp.or('a', 'b', 'z', { group, notRemember }).toRegExp().source).toBe('(?:x|y|z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x|y|z)');
+	expect(exp.or('a', 'b', 'z', { group, name: 'name1' }).toRegExp().source).toBe('(?<name1>:x|y|z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', 'z'], { groupItem }).toRegExp().source).toBe('(x)|(y)|(z)');
+	expect(exp.or('a', 'b', 'z', { groupItem }).toRegExp().source).toBe('(x)|(y)|(z)');
 	exp.clear(true);
-	expect(exp.or(['a', 'b', /z/], { groupItem, group }).toRegExp().source).toBe('((x)|(y)|(z))');
+	expect(exp.or('a', 'b', /z/, { groupItem, group }).toRegExp().source).toBe('((x)|(y)|(z))');
 	exp.clear(true);
 	// set
 	expect(exp.set('a').toRegExp().source).toBe('[x]');
 	exp.clear(true);
-	expect(exp.set(['a', 'b', 'z']).toRegExp().source).toBe('[xyz]');
+	expect(exp.set('a', 'b', 'z').toRegExp().source).toBe('[xyz]');
 	exp.clear(true);
-	expect(exp.negatedSet(['a', 'b', 'z']).toRegExp().source).toBe('[^xyz]');
+	expect(exp.negatedSet('a', 'b', 'z').toRegExp().source).toBe('[^xyz]');
 	exp.clear(true);
 	// look
 	expect(exp.lookahead('a', 'b').toRegExp().source).toBe('x(?=y)');

@@ -1,7 +1,17 @@
+// eslint-disable-next-line import/no-cycle
+import { RegExpParam } from './regExpCoder';
+
 /**
  * RegExp Options
  */
-export default class RegExpOptions {
+export class RegExpOptions {
+	/**
+	 * The expression.
+	 * If the expression is not provided, the option will work for all previous parameters,
+	 * and when the expression is provided, the option will only work for the expression.
+	 */
+	expression?: RegExpParam;
+
 	/**
 	 * qualifier: would be one of:  
 	 * `?`: zero or one  
@@ -63,7 +73,7 @@ export default class RegExpOptions {
 
 	/**
 	 * `[^xy]`  
-	 * If negated the input, work with set. Default is false.
+	 * If it is a negated set. Default is false.
 	 */
-	negated?: boolean;
+	negatedSet?: boolean;
 }

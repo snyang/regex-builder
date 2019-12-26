@@ -1,4 +1,4 @@
-import MultiSubstitutePattern from '../examples/multiSubstitutePattern';
+import { MultiSubstitutePattern } from '../examples/multiSubstitutePattern';
 
 const prefix = 'test.regexp.pattern';
 test(`${prefix}.multiSubstitutePattern`, () => {

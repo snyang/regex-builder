@@ -1,7 +1,7 @@
-import RegExpCoder from '../src/regExpCoder';
-import RegExpSpec from '../src/regExpSpec';
+import { RegExpCoder } from '../src/regExpCoder';
+import { RegExpSpec } from '../src/regExpSpec';
 
-export default class MultiSubstitutePattern {
+export class MultiSubstitutePattern {
 	/**
 	 * Return an expression for replacing
 	 * @param fromStrings the from strings
@@ -13,10 +13,10 @@ export default class MultiSubstitutePattern {
 		}
 
 		const exp = new RegExpCoder()
-			.or(fromStrings.map((value) => {
+			.or(...(fromStrings.map((value) => {
 				const expValue = RegExpCoder.encodeRegExp(value);
 				return expValue;
-			}));
+			})));
 
 		return exp.toRegExp(RegExpSpec.dotIsNewLineFlag
 			+ RegExpSpec.multipleLineSearchFlag

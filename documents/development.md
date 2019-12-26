@@ -1,5 +1,13 @@
 # Development
 
+## The Branch Strategy
+
+`master` - The latest release
+`develop` - For developing the next version
+`<major>.<minor>.<patch>` - The release of a specific version
+`fix/xxx` - For fixing a bug
+`feat/xxx` - For developing a feature
+
 ## Publish steps
 
 - change the package version

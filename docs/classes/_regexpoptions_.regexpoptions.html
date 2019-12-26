@@ -91,11 +91,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#expression" class="tsd-kind-icon">expression</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#group" class="tsd-kind-icon">group</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#groupitem" class="tsd-kind-icon">group<wbr>Item</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#groupqualifieditem" class="tsd-kind-icon">group<wbr>Qualified<wbr>Item</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#negated" class="tsd-kind-icon">negated</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#negatedset" class="tsd-kind-icon">negated<wbr>Set</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#notremember" class="tsd-kind-icon">not<wbr>Remember</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#notrememberqualifieditem" class="tsd-kind-icon">not<wbr>Remember<wbr>Qualified<wbr>Item</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_regexpoptions_.regexpoptions.html#or" class="tsd-kind-icon">or</a></li>
@@ -109,12 +110,29 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="expression" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> expression</h3>
+					<div class="tsd-signature tsd-kind-icon">expression<span class="tsd-signature-symbol">:</span> <a href="../modules/_regexpcoder_.html#regexpparam" class="tsd-signature-type">RegExpParam</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L13">regExpOptions.ts:13</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The expression.
+								If the expression is not provided, the option will work for all previous parameters,
+							and when the expression is provided, the option will only work for the expression.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="group" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> group</h3>
 					<div class="tsd-signature tsd-kind-icon">group<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L39">regExpOptions.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L49">regExpOptions.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -130,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">group<wbr>Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L33">regExpOptions.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L43">regExpOptions.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -147,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">group<wbr>Qualified<wbr>Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L20">regExpOptions.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L30">regExpOptions.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -163,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L44">regExpOptions.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L54">regExpOptions.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -173,18 +191,18 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="negated" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> negated</h3>
-					<div class="tsd-signature tsd-kind-icon">negated<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<a name="negatedset" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> negated<wbr>Set</h3>
+					<div class="tsd-signature tsd-kind-icon">negated<wbr>Set<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L68">regExpOptions.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L78">regExpOptions.ts:78</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p><code>[^xy]</code>
-							If negated the input, work with set. Default is false.</p>
+							If it is a negated set. Default is false.</p>
 						</div>
 					</div>
 				</section>
@@ -194,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">not<wbr>Remember<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L50">regExpOptions.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L60">regExpOptions.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -210,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">not<wbr>Remember<wbr>Qualified<wbr>Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L26">regExpOptions.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L36">regExpOptions.ts:36</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -226,7 +244,7 @@
 					<div class="tsd-signature tsd-kind-icon">or<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L56">regExpOptions.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L66">regExpOptions.ts:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -242,7 +260,7 @@
 					<div class="tsd-signature tsd-kind-icon">qualifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L14">regExpOptions.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L24">regExpOptions.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -263,7 +281,7 @@
 					<div class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/7c64ab4/src/regExpOptions.ts#L62">regExpOptions.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/snyang/regexp-coder/blob/master/src/regExpOptions.ts#L72">regExpOptions.ts:72</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -287,6 +305,9 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_regexpcoder_.html">&quot;reg<wbr>Exp<wbr>Coder&quot;</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_regexplib_.html">&quot;reg<wbr>Exp<wbr>Lib&quot;</a>
+					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/_regexpoptions_.html">&quot;reg<wbr>Exp<wbr>Options&quot;</a>
 					</li>
@@ -303,6 +324,9 @@
 						<a href="_regexpoptions_.regexpoptions.html" class="tsd-kind-icon">Reg<wbr>Exp<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_regexpoptions_.regexpoptions.html#expression" class="tsd-kind-icon">expression</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_regexpoptions_.regexpoptions.html#group" class="tsd-kind-icon">group</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -315,7 +339,7 @@
 								<a href="_regexpoptions_.regexpoptions.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_regexpoptions_.regexpoptions.html#negated" class="tsd-kind-icon">negated</a>
+								<a href="_regexpoptions_.regexpoptions.html#negatedset" class="tsd-kind-icon">negated<wbr>Set</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_regexpoptions_.regexpoptions.html#notremember" class="tsd-kind-icon">not<wbr>Remember</a>

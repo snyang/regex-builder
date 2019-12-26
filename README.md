@@ -24,7 +24,7 @@ import { RegExpCoder } from 'regexp-coder';
 const subIP = /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/;
 const dot = /\./;
 const ipv4Exp = RegExpCoder.new()
-	.join([
+	.join(
 		subIP,
 		dot,
 		subIP,
@@ -32,7 +32,7 @@ const ipv4Exp = RegExpCoder.new()
 		subIP,
 		dot,
 		subIP,
-	])
+	)
 	.enableMatchWhole()
 	.toRegExp();
 
@@ -51,7 +51,7 @@ import { RegExpCoder } from 'regexp-coder';
 const ipv4Exp = RegExpCoder.new()
 	.define('sub-ip', /(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/)
 	.define('dot', /\./)
-	.join([
+	.join(
 		'sub-ip',
 		'dot',
 		'sub-ip',
@@ -59,7 +59,7 @@ const ipv4Exp = RegExpCoder.new()
 		'sub-ip',
 		'dot',
 		'sub-ip',
-	])
+	)
 	.enableMatchWhole()
 	.toRegExp();
 
@@ -77,18 +77,16 @@ import { RegExpCoder } from 'regexp-coder';
 const ipv4Exp = RegExpCoder.new()
 	.group(
 		RegExpCoder.new().or(
-			[
-				/\d/,
-				/\d\d/,
-				/1\d\d/,
-				/2[0-4]\d/,
-				/25[0-5]/,
-			],
+			/\d/,
+			/\d\d/,
+			/1\d\d/,
+			/2[0-4]\d/,
+			/25[0-5]/,
 		),
 	)
 	.stash('sub-ip')
 	.define('dot', /\./)
-	.join([
+	.join(
 		'sub-ip',
 		'dot',
 		'sub-ip',
@@ -96,7 +94,7 @@ const ipv4Exp = RegExpCoder.new()
 		'sub-ip',
 		'dot',
 		'sub-ip',
-	])
+	)
 	.enableMatchWhole()
 	.toRegExp();
 
@@ -147,21 +145,21 @@ console.log(ipv4Exp.test('192-168-0-1')); // false
 
 **For example:**
 ```typescript
+import { RegExpCoder } from 'regexp-coder';
+
 const group = true;
 const ipv4Exp = RegExpCoder.new()
 	.or(
-		[
-			/\d/,
-			/\d\d/,
-			/1\d\d/,
-			/2[0-4]\d/,
-			/25[0-5]/,
-		],
+		/\d/,
+		/\d\d/,
+		/1\d\d/,
+		/2[0-4]\d/,
+		/25[0-5]/,
 		{ group }, // <-- Use options here
 	)
 	.stash('sub-ip')
 	.define('dot', /\./)
-	.join([
+	.join(
 		'sub-ip',
 		'dot',
 		'sub-ip',
@@ -169,7 +167,7 @@ const ipv4Exp = RegExpCoder.new()
 		'sub-ip',
 		'dot',
 		'sub-ip',
-	])
+	)
 	.enableMatchWhole()
 	.toRegExp();
 

@@ -1,4 +1,4 @@
-import RegExpSpec from '../src/regExpSpec';
+import { RegExpSpec } from '../src/regExpSpec';
 
 const prefix = 'test.regexp';
 test(`${prefix}.basic`, () => {

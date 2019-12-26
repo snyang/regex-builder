@@ -1,7 +1,7 @@
-import RegExpSpec from '../src/regExpSpec';
-import RegExpCoder from '../src/regExpCoder';
+import { RegExpSpec } from '../src/regExpSpec';
+import { RegExpCoder } from '../src/regExpCoder';
 
-export default class LiteralPattern {
+export class LiteralPattern {
 	/**
 	 * `/"([^"\\]|\\.)*"/g`  
 	 * For literal cases. e.g. `"abc\ndef"`  
@@ -12,12 +12,11 @@ export default class LiteralPattern {
 	 */
 	static literal(qualifier: string,
 		escape: string): RegExp {
-		const negated = true;
 		const re = new RegExpCoder()
-			.define('charWithEscape', `${escape}.`)
-			.defineSet('charWithoutEscape', [qualifier, escape], { negated })
+			.define('$charWithEscape', `${escape}.`)
+			.defineNegatedSet('$charWithoutEscape', qualifier, escape)
 			.join(qualifier)
-			.or(['charWithoutEscape', 'charWithEscape'], { qualifier: '*' })
+			.or('$charWithoutEscape', '$charWithEscape', { qualifier: '*' })
 			.join(qualifier)
 			.toRegExp(RegExpSpec.globalSearchFlag);
 

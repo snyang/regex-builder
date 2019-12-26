@@ -90,7 +90,7 @@
 <span class="hljs-keyword">const</span> subIP = <span class="hljs-regexp">/(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/</span>;
 <span class="hljs-keyword">const</span> dot = <span class="hljs-regexp">/\./</span>;
 <span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
-    .join([
+    .join(
         subIP,
         dot,
         subIP,
@@ -98,7 +98,7 @@
         subIP,
         dot,
         subIP,
-    ])
+    )
     .enableMatchWhole()
     .toRegExp();
 
@@ -114,7 +114,7 @@
 <span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
     .define(<span class="hljs-string">'sub-ip'</span>, <span class="hljs-regexp">/(\d|\d\d|1\d\d|2[0-4]\d|25[0-5])/</span>)
     .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
-    .join([
+    .join(
         <span class="hljs-string">'sub-ip'</span>,
         <span class="hljs-string">'dot'</span>,
         <span class="hljs-string">'sub-ip'</span>,
@@ -122,7 +122,7 @@
         <span class="hljs-string">'sub-ip'</span>,
         <span class="hljs-string">'dot'</span>,
         <span class="hljs-string">'sub-ip'</span>,
-    ])
+    )
     .enableMatchWhole()
     .toRegExp();
 
@@ -138,18 +138,16 @@
 <span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
     .group(
         RegExpCoder.new().or(
-            [
-                <span class="hljs-regexp">/\d/</span>,
-                <span class="hljs-regexp">/\d\d/</span>,
-                <span class="hljs-regexp">/1\d\d/</span>,
-                <span class="hljs-regexp">/2[0-4]\d/</span>,
-                <span class="hljs-regexp">/25[0-5]/</span>,
-            ],
+            <span class="hljs-regexp">/\d/</span>,
+            <span class="hljs-regexp">/\d\d/</span>,
+            <span class="hljs-regexp">/1\d\d/</span>,
+            <span class="hljs-regexp">/2[0-4]\d/</span>,
+            <span class="hljs-regexp">/25[0-5]/</span>,
         ),
     )
     .stash(<span class="hljs-string">'sub-ip'</span>)
     .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
-    .join([
+    .join(
         <span class="hljs-string">'sub-ip'</span>,
         <span class="hljs-string">'dot'</span>,
         <span class="hljs-string">'sub-ip'</span>,
@@ -157,7 +155,7 @@
         <span class="hljs-string">'sub-ip'</span>,
         <span class="hljs-string">'dot'</span>,
         <span class="hljs-string">'sub-ip'</span>,
-    ])
+    )
     .enableMatchWhole()
     .toRegExp();
 
@@ -309,21 +307,21 @@
 					<h3><a href="https://snyang.github.io/regexp-coder/modules/_regexpoptions_.html">RegExpOptions</a></h3>
 				</a>
 				<p><strong>For example:</strong></p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> group = <span class="hljs-literal">true</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { RegExpCoder } <span class="hljs-keyword">from</span> <span class="hljs-string">'regexp-coder'</span>;
+
+<span class="hljs-keyword">const</span> group = <span class="hljs-literal">true</span>;
 <span class="hljs-keyword">const</span> ipv4Exp = RegExpCoder.new()
     .or(
-        [
-            <span class="hljs-regexp">/\d/</span>,
-            <span class="hljs-regexp">/\d\d/</span>,
-            <span class="hljs-regexp">/1\d\d/</span>,
-            <span class="hljs-regexp">/2[0-4]\d/</span>,
-            <span class="hljs-regexp">/25[0-5]/</span>,
-        ],
+        <span class="hljs-regexp">/\d/</span>,
+        <span class="hljs-regexp">/\d\d/</span>,
+        <span class="hljs-regexp">/1\d\d/</span>,
+        <span class="hljs-regexp">/2[0-4]\d/</span>,
+        <span class="hljs-regexp">/25[0-5]/</span>,
         { group }, <span class="hljs-comment">// &lt;-- Use options here</span>
     )
     .stash(<span class="hljs-string">'sub-ip'</span>)
     .define(<span class="hljs-string">'dot'</span>, <span class="hljs-regexp">/\./</span>)
-    .join([
+    .join(
         <span class="hljs-string">'sub-ip'</span>,
         <span class="hljs-string">'dot'</span>,
         <span class="hljs-string">'sub-ip'</span>,
@@ -331,7 +329,7 @@
         <span class="hljs-string">'sub-ip'</span>,
         <span class="hljs-string">'dot'</span>,
         <span class="hljs-string">'sub-ip'</span>,
-    ])
+    )
     .enableMatchWhole()
     .toRegExp();
 
@@ -402,6 +400,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_regexpcoder_.html">&quot;reg<wbr>Exp<wbr>Coder&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_regexplib_.html">&quot;reg<wbr>Exp<wbr>Lib&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_regexpoptions_.html">&quot;reg<wbr>Exp<wbr>Options&quot;</a>

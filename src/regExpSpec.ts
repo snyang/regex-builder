@@ -3,7 +3,7 @@
  * - Provide basic elements of Javascript/Type Regular Expression
  * @see [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
  */
-export default class RegExpSpec {
+export class RegExpSpec {
 	/**
 	 * `\`, backslash.
 	 * @see [backslash](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#special-backslash)
