@@ -1,18 +1,17 @@
 {
   "name": "regexp-coder",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A Javascript/Typescript RegExp Coder",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "build": "npm run gulp build",
     "coverage": "jest --coverage",
-    "lint:ts": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
-    "lint:ts:fix": "eslint --fix \"src/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
-    "lint": "npm run lint:ts",
     "doc": "npm run gulp doc && npm run gulp docs:copy",
     "gulp": "gulp",
-    "build": "npm run gulp build"
+    "lint:fix": "eslint --fix \"src/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --cache --cache-location node_modules/.cache/.eslintcache",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

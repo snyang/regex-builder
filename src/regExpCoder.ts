@@ -185,7 +185,7 @@ export class RegExpCoder {
 			let itemSource = this.getSource(item);
 			if (itemSource) {
 				if (totalOptions && totalOptions.groupItem) {
-					itemSource = `(${itemSource})`;
+					itemSource = `(${totalOptions.notRememberGroupItem ? '?:' : ''}${itemSource})`;
 				}
 				let or = '';
 				if (index > 0 && totalOptions && totalOptions.or) {

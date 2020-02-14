@@ -43,6 +43,12 @@ export class RegExpOptions {
 	groupItem?: boolean;
 
 	/**
+	 * `(?:x)(?:y)`
+	 * If need not to remember the group item, work with groupItem. Default is false.
+	 */
+	notRememberGroupItem?: boolean;
+
+	/**
 	 * `(x)`  
 	 * If need to group the input, Default is false.
 	 */
