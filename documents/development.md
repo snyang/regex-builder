@@ -10,6 +10,8 @@
 
 ## Publish steps
 
+- `npm install -g npm-cli-login`
+- `npm-cli-login -u testUser -p testPass -e test@example.com`
 - change the package version
 - build: run `npm run build`
 - pack: run `npm pack`

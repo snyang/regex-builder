@@ -11,7 +11,8 @@
 	},
 	"parserOptions": {
 		"ecmaVersion": 2016,
-		"sourceType": "module"
+		"sourceType": "module",
+		"project": "./tsconfig.json"
 	},
 	"extends": ["airbnb-base", "eslint-config-airbnb-typescript"],
 	"rules": {

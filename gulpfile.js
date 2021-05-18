@@ -18,7 +18,7 @@ gulp.task('dist', shell.task(['tsc'], {
 	cwd: root,
 }));
 
-gulp.task('doc', shell.task(`${path.join('node_modules', '.bin', 'typedoc')} --out docs --excludePrivate --gitRevision master --mode modules src`, {
+gulp.task('doc', shell.task(`${path.join('node_modules', '.bin', 'typedoc')} --out docs --excludePrivate --gitRevision master src`, {
 	cwd: root,
 }));
 
